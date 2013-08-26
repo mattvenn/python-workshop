@@ -1,6 +1,13 @@
 import cv2
 import numpy as np
- 
+"""
+windows instructions: http://opencvpython.blogspot.co.uk/2012/05/install-opencv-in-windows-for-python.html
+numpy doesn't work with win-pip
+(though I installed numpy from http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy)
+install opencv from http://sourceforge.net/projects/opencvlibrary/?source=dlp
+
+seems like a 2gb install!
+"""
 cap = cv2.VideoCapture(0)
 w = 640
 h = 480

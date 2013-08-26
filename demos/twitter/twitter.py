@@ -1,4 +1,5 @@
 from twython import Twython
+#twython installs with win-pip
 import os
 from datetime import datetime
 
@@ -17,7 +18,7 @@ twitter = Twython(
 )
 
 #post a new tweet
-message = "a nice picture here: http://www.flickr.com/photos/pythonworkshop/9599102000"
+message = "a very nice picture here: http://www.flickr.com/photos/pythonworkshop/9599102000"
 print "sending a text tweet..."
 twitter.update_status(status=message)
 print "sent"

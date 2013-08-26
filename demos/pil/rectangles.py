@@ -1,6 +1,13 @@
 
 #http://effbot.org/imagingbook/
-import Image, ImageDraw
+
+"""
+windows - install pillow (PIL for windows) from
+http://www.lfd.uci.edu/~gohlke/pythonlibs/
+
+then a different import line:
+"""
+from PIL import Image, ImageDraw
 
 width = 500
 height = 500
