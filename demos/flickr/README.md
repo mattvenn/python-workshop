@@ -29,9 +29,11 @@ checks if the app has been authenticated yet. If not, your web browser should au
 
 You can read all the docs, and see examples here: http://stuvel.eu/media/flickrapi-docs/documentation/
 
+In particular, the calls to the flickr api return XML which need to be parsed with an XML parser to find out what happened when we made the call. The default is ElementTree: http://docs.python.org/lib/module-xml.etree.ElementTree.html
+
 # Requirements
 
-The flickrapi module has to be installed.
+The flickrapi module:
 
-Linux/Mac: use pip
-Windows: use win-pip
+* Linux/Mac: pip install flickrapi
+* Windows: use win-pip
