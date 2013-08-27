@@ -1,8 +1,4 @@
 import flickrapi
-#docs: http://stuvel.eu/media/flickrapi-docs/documentation/
-#uploading to http://www.flickr.com/photos/pythonworkshop/
-#win-pip works for flickrapi
-#has to get authenticated on each new computer?
 
 api_key = '37637f77593e94f56f3f14b52f92301d'
 api_secret = 'abcd4f3d4427edda'
