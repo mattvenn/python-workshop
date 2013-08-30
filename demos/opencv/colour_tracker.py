@@ -1,13 +1,13 @@
-#based on http://stackoverflow.com/questions/12943410/opencv-python-single-rather-than-multiple-blob-tracking
-
 import cv2
 import numpy as np
 
 # create video capture
 cap = cv2.VideoCapture(0)
+
 min_area = 50 #avoid noise
 h = 480
 w = 640
+
 background = np.zeros((h, w, 3), np.uint8)
 ox,oy = 0,0
 
@@ -49,7 +49,7 @@ while(1):
             cv2.line(background,(ox,oy),(cx,cy),255,5)
         ox,oy = cx,cy
 
-    # Show various images, if key pressed is 'Esc', exit the loop
+    #Show various images: 
     #original frame
     #cv2.imshow('frame',frame)
     #the contours
@@ -57,6 +57,7 @@ while(1):
     #we draw on a blank background
     cv2.imshow('background',background)
 
+    #if key pressed is 'Esc', exit the loop
     if cv2.waitKey(33)== 27:
         break
 
