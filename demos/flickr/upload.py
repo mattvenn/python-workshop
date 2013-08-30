@@ -12,8 +12,8 @@ if not token:
 flickr.get_token_part_two((token, frob))
 
 #make the call, get XML back
-xml_result = flickr.upload(filename='test.jpg', title='test from windows', description='test')
+xml_result = flickr.upload(filename='test.png', title='test', description='test')
 
 #parse the XML with ElementTree
 photo_id = xml_result.find('photoid').text
-print "uploaded to: http://www.flickr.com/photos/pythonworkshop/" + photo_id
+print "uploaded with photo id" + photo_id

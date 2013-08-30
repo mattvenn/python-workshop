@@ -35,5 +35,5 @@ In particular, the calls to the flickr api return XML which need to be parsed wi
 
 The flickrapi module:
 
-* Linux/Mac: pip install flickrapi
+* Linux/Mac: sudo pip install flickrapi
 * Windows: use win-pip
