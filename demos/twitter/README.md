@@ -8,7 +8,15 @@ It uses a library called Twython.
 * you can't post duplicate status messages, so including the time is a good way round this
 * if you get an error with the default example, there is probably a network restriction like a firewall.
 
-# Creating your own account
+# Useful docs
+
+There are lots of docs about Twython here:
+
+    https://twython.readthedocs.org/en/latest/usage/basic_usage.html
+
+# If you want to create your own account
+
+After you've checked you can tweet with our account you can setup the app to tweet to your own.
 
 It's a bit fiddly, but this worked for me:
 
@@ -20,8 +28,7 @@ It's a bit fiddly, but this worked for me:
 * go to details tab, and click the 'create my access token' button
 * copy the consumer key and secret, and the access token and secret into your program
 
-# Useful docs
+# Requirements
 
-There are lots of docs about Twython here:
-
-    https://twython.readthedocs.org/en/latest/usage/basic_usage.html
+* Linux/Mac: - sudo pip install twython
+* Windows: use pip win to install twython
