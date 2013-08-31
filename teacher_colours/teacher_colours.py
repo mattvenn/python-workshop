@@ -13,18 +13,19 @@ box_size = 50
 
 regions = [
     {
-    "box_x" : w/2,
-    "box_y" : h/4,
+    "box_x" : h/2,
+    "box_y" : w/4,
     },
     {
-    "box_x" : w/2,
-    "box_y" : 3*h/4,
+    "box_x" : h/2,
+    "box_y" : 3*w/4,
     },
     ]
 
 while(1):
     #grab a frame from the webcam
     success, img = cap.read()
+    img = cv2.flip(cv2.transpose(img), 0)
     #create a region of interest - just the middle square
 
     color = [ (255,0,0),(0,255,0),(0,0,255) ]
@@ -56,7 +57,7 @@ while(1):
         #draw rectangle after doing histogram
         cv2.rectangle(img, (region["box_x"]-box_size/2, region["box_y"]-box_size/2), (region["box_x"]+box_size/2,region["box_y"]+box_size/2), region["predominant_color"], -1)
      
-        cv2.putText(img,"press space to capture", (10,30), cv2.FONT_HERSHEY_SIMPLEX, 1.5, (255,255,255))
+        cv2.putText(img,"press space to capture", (10,w-10), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,255))
     #the main window
     cv2.imshow('image',img)
 
@@ -76,8 +77,8 @@ while(1):
             stored = []
         stored.append([regions[0]["hsv"],regions[1]["hsv"]])
 
-        for store in stored:
-            print store[0][0],store[1][0]
+        #for store in stored:
+        #    print store[0][0],store[1][0]
 
         #save the array
         db = open(db_file,'w')
