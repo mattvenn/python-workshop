@@ -17,5 +17,5 @@ for x,y,colour in squares:
         print coords, colour
         draw.rectangle(coords,fill=colour,outline=255)
 # write to stdout
-im.save("test.jpg", "JPEG")
+im.save("test.png", "PNG")
 
