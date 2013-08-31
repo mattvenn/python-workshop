@@ -1,31 +1,24 @@
-import pygame.camera
-from PIL import Image
+import cv2
 import time
 
 num_photos = 10
 delay = 1
 
 def take_image(img_name):
-    img = cam.get_image()
-    img_size = img.get_size()
+    #setup camera
+    cap = cv2.VideoCapture(0)
 
-    pygame_string_image = pygame.image.tostring(img, "RGBA",False)
-    pil_image = Image.fromstring("RGBA",img_size,pygame_string_image)
-    print "saving to", img_name
-    pil_image.save(img_name, "JPEG")
+    #take some frames of video to allow auto-exposure etc to work.
+    for i in range(10):
+        success,frame = cap.read()
 
-
-#setup camera
-pygame.camera.init()
-cam = pygame.camera.Camera(pygame.camera.list_cameras()[0])
-cam.start()
+    #cleanup
+    cap.release()
+    print "writing image to", img_name
+    cv2.imwrite(img_name,frame)
 
 #take photos
 for i in range(num_photos):
     photo_name = str(i) + ".jpg"
     take_image(photo_name)
     time.sleep(delay)
-
-
-#cleanup
-pygame.camera.quit()
