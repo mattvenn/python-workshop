@@ -13,3 +13,11 @@ See the [demos](demos/) here. We cover:
 * twitter - posting an update to twitter
 * www - a simple web server
 * xively - storing and graphing realtime sensor data on the web with xively
+
+# Todo
+
+* flickr, authentication on every computer? why?
+* check linux install command for:
+** pil
+** opencv
+** pygame
