@@ -23,3 +23,4 @@ For graphing matplotlib is required as well, which will also then need pyparsing
 ## Mac/Linux
 
 sudo pip install scipy
+sudo pip install matplotlib
