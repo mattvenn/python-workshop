@@ -8,6 +8,10 @@ x_cent = w/2
 y_cent = h/2
 box_size = 50
 
+#this line is necessary for the pre-packaged opencv in windows
+cv2.namedWindow('colorhist', cv2.CV_WINDOW_AUTOSIZE)
+cv2.namedWindow('image', cv2.CV_WINDOW_AUTOSIZE)
+
 while(1):
     #grab a frame from the webcam
     success, img = cap.read()

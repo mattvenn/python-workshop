@@ -9,7 +9,10 @@ h = 480
 w = 640
 
 #we draw on a blank background
+#this line is necessary for the pre-packaged opencv in windows
+cv2.namedWindow('background', cv2.CV_WINDOW_AUTOSIZE)
 background = np.zeros((h, w, 3), np.uint8)
+
 ox,oy = 0,0
 
 while(1):
@@ -57,8 +60,6 @@ while(1):
     #the contours
     #cv2.imshow('thresh',thresh2)
     
-    #this line is necessary for the pre-packaged opencv in windows
-    cv2.namedWindow('background', cv2.CV_WINDOW_AUTOSIZE)
     cv2.imshow('background',background)
 
     #if key pressed is 'Esc', exit the loop
