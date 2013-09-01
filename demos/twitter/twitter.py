@@ -17,9 +17,13 @@ twitter = Twython(
     "5rLNvZm3JZdkx0K1Jx9jgsqMG6MmGLAQmPdJ7ChtzA",
 )
 
-#post a new tweet
-message = "a very nice picture here: http://www.flickr.com/photos/pythonworkshop/9599102000"
-print "sending a text tweet..."
+#make the tweet
+time = datetime.now()
+link = "http://www.flickr.com/photos/pythonworkshop/9599102000"
+message = "%s posted at %s" % (link, time)
+
+#post it
+print "sending a text tweet:", message
 twitter.update_status(status=message)
 print "sent"
 
