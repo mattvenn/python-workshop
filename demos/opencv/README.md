@@ -16,15 +16,19 @@ NumPy is documented here: http://www.numpy.org/
 
 # draw_hist demo
 
-based on http://opencvpython.blogspot.co.uk/2012/04/drawing-histogram-in-opencv-python.html
+This demo looks at a small region of interest in the center of the video stream. It works out the predominant colour, and converts the RGB value to HSV. These values are printed on the video stream. We also draw a histogram of the RGB values in the region of interest.
 
-???
+You might need something like this to help you identify the hue (the H in HSV) of an object. It's much easier doing image tracking within the HSV colour space than the RGB colour space.
+
+Once you have your hue, we can use it in the colour tracker demo.
+
+The demo was based on http://opencvpython.blogspot.co.uk/2012/04/drawing-histogram-in-opencv-python.html
 
 # colour_tracker demo
 
-based on http://stackoverflow.com/questions/12943410/opencv-python-single-rather-than-multiple-blob-tracking
+This demo identifies the largest area in a video feed that is of a certain hue. We do this by converting each frame from RGB to HSV, then filtering out a range of hues we're interested in. Once we've done that we use the opencv findContours method to find blobs in the frame. The largest blob found is then used to draw a line. In this way we can do a 'virtual graffiti' system. It could be extended to controlling windows in a GUI by sticking bits of coloured tape on your fingers.
 
-???
+The demo was based on http://stackoverflow.com/questions/12943410/opencv-python-single-rather-than-multiple-blob-tracking
 
 # Documentation
 
@@ -42,13 +46,14 @@ And the official docs:
 
 The opencv module
 
-## Linux/Mac
-
-pip install numpy
-pip install opencv??
-
 ## Windows
 
 follow these instructions:
     
     http://opencvpython.blogspot.co.uk/2012/05/install-opencv-in-windows-for-python.html
+
+## Linux/Mac
+
+pip install numpy
+pip install opencv???
+
