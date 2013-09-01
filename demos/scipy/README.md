@@ -18,6 +18,7 @@ Great documentation and a cookbook are available from:
 ## Windows
 
 Install a precompiled binary from http://www.lfd.uci.edu/~gohlke/pythonlibs/#scipy
+For graphing matplotlib is required as well, which will also then need pyparsing and dateutil - all available from http://www.lfd.uci.edu/~gohlke/pythonlibs/
 
 ## Mac/Linux
 
