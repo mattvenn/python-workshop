@@ -4,9 +4,15 @@ PIL can be used to process images; great for resizing, making thumbnails, proces
 
 We can also create new pictures with text and standard geometric shapes.
 
-# Creating new images
+# Demos
 
-The demo creates a new image and then draws a series of different coloured rectangles on top.
+## Creating new images 
+
+The rectangles demo creates a new image and then draws a series of random rectangles on it.
+
+## Processing an image
+
+The process demo loads the previously created image, rotates it and then scales it before saving it.
 
 # Documentation
 

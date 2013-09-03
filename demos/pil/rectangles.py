@@ -1,21 +1,23 @@
 from PIL import Image, ImageDraw
+from random import randint
 
 width = 500
 height = 500
 num_squares = 10
 
+#create an image
 im = Image.new("RGB", (width,height), "white")
+#get the draw object
 draw = ImageDraw.Draw(im)
-squares = zip(
-    range(0,width/2,width/2/num_squares),
-    range(0,height/2,height/2/num_squares),
-    range(1,100,100/num_squares))
 
-for x,y,colour in squares:
-        coords=[x,y,width-x,width-y]
-        colour = (colour+50,255-colour,100+colour)
-        print coords, colour
-        draw.rectangle(coords,fill=colour,outline=255)
-# write to stdout
+#and use the draw object to draw a lot of randomly placed, sized and coloured rectangles!
+for square in range(num_squares):
+    #randint generates a random number between the 2 arguments we pass it
+    coords=[randint(0,width),randint(0,height),randint(0,width),randint(0,height)]
+    colour = (randint(0,255),randint(0,255),randint(0,255))
+    print coords, colour
+    draw.rectangle(coords,fill=colour)
+
+#save the image
 im.save("test.png", "PNG")
 

@@ -21,3 +21,8 @@ See the [demos](demos/) here. We cover:
 ** pil
 ** opencv
 ** pygame
+
+# Docs todo
+
+* links to PIL draw module
+* link to interactivepython.com for turtle
