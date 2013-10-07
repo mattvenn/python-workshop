@@ -2,9 +2,20 @@
 10 + 20
 2 * 300
 25 / 5
+2 + 3 * 5
+(2 + 3) * 5
 
 
 #challenge! find a sum that gives you a result you didn't expect...
+
+
+
+
+
+
+
+
+
 
 
 
@@ -26,6 +37,12 @@
 
 
 
+
+
+
+
+
+
 #python can't concatenate strings and integers (or floats)
 #so we have to convert them:
 
@@ -34,19 +51,6 @@ float("5.0") #a string to a float
 str(5.2) #an int or a float to a string
 
 
-#getting user input
-my_name = raw_input("what's your name? ")
-print my_name
-
-
-#challenge! 
-#write a program that asks your name and then prints it out 10 times
-
-
-
-
-print raw_input("your name? ") * 10
-
 
 
 #variables, assign with =
@@ -54,6 +58,28 @@ my_num = 25
 my_str = "hello"
 my_num = my_num + 5
 my_str * my_num
+
+
+
+
+#getting user input
+name = raw_input("what's your name? ")
+print name
+
+#challenge! 
+#write a program that asks your name and then prints it out 10 times
+
+
+
+
+name = raw_input("your name? ") * 10
+print name * 10
+
+
+
+
+
+
 
 
 #challenge! 
@@ -65,6 +91,14 @@ my_str * my_num
 my_number = raw_input("a number? ")
 my_int = int(my_number)
 print my_int * my_int
+
+
+
+
+
+
+
+
 
 
 
@@ -103,15 +137,28 @@ else:
 
 
 
+
+
+
+
+
+#loops!
 #loop forever
 while True:
     print "hello"
+
+
+
+
+
 
 #loop for a certain number of times
 loops = 0
 while loops < 10:
     print loops
     loops = loops + 1
+
+
 
 
 #break out of a loop
@@ -126,7 +173,8 @@ while True:
 
 
 #challenge!
-#go back to your guessing number game and add a loop so you have to keep guessing
+#go back to your guessing number game:
+#add a loop so you have to keep guessing
 #when you get the right answer, break out of the loop.
 #for bonus marks, limit the number of guesses to 10
 
@@ -193,7 +241,8 @@ randon.randint(1,10)
 
 
 #challenge!
-#go back to your guessing game and set the secret number to be computer generated
+#go back to your guessing game:
+#set the secret number to be computer generated
 
 
 
@@ -238,6 +287,11 @@ times(3)
 
 
 
+
+
+
+
+
 #arrays
 array = [ "cat", 100.5, False ]
 
@@ -250,7 +304,6 @@ array = range(10)
 
 for i in range(5,10):
     print i
-
 
 
 
@@ -268,3 +321,12 @@ for i in range(5,10):
 
 for table in range(1,11):
     times(5)
+
+
+
+
+
+
+
+
+
