@@ -1,5 +1,7 @@
+import ipdb
+ipdb.set_trace()
 #mathematical operators +,-,*/
-10 + 20
+10 - 20
 2 * 300
 25 / 5
 2 + 3 * 5
@@ -50,7 +52,7 @@ int("5") #converts a string to an int
 float("5.0") #a string to a float
 str(5.2) #an int or a float to a string
 
-
+print "hello " + str(5.2)
 
 
 #variables, assign with =
@@ -65,6 +67,8 @@ my_str * my_num
 #getting user input
 name = raw_input("what's your name? ")
 print name
+number = int(raw_input("type a number? "))
+print number
 
 #challenge! 
 #write a program that asks your name and then prints it out 10 times
@@ -105,7 +109,7 @@ print my_int * my_int
 
 #conditionals
 10 > 20
-10 == 10
+10 != 10
 my_str == "hello"
 
 time = 12
@@ -118,7 +122,7 @@ else:
     
 
 
-#challenge! 
+#challenge! (save this to a new program)
 #write a program that picks a number, and then asks you to guess it.
 #if you get it right, print a message, otherwise print "higher" or "lower"
 
@@ -146,9 +150,6 @@ else:
 #loop forever
 while True:
     print "hello"
-
-
-
 
 
 
@@ -235,9 +236,9 @@ while True:
     
 
 
-
+#random number library
 import random
-randon.randint(1,10)
+random.randint(1,10)
 
 
 #challenge!
@@ -258,12 +259,14 @@ print "you have 10 guesses to pick a number from 1 to 10"
 
 
 #functions
-def my_func(a,b)
+def my_func(a,b):
     return a * b
 
+print my_func(20,30)
 
 #challenge!
-#write a function that when you call with a number, prints its times table out from 1 to 10
+#write a function that when you call with a number, prints its
+#times table out from 1 to 10
 
 
 
@@ -302,8 +305,8 @@ for i in array:
 
 array = range(10)
 
-for i in range(5,10):
-    print i
+for x in range(5,10):
+    print x
 
 
 
@@ -320,7 +323,7 @@ for i in range(5,10):
 
 
 for table in range(1,11):
-    times(5)
+    times(table)
 
 
 
