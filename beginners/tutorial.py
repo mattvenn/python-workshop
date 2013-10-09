@@ -1,5 +1,3 @@
-import ipdb
-ipdb.set_trace()
 #mathematical operators +,-,*/
 10 - 20
 2 * 300
@@ -76,7 +74,7 @@ print number
 
 
 
-name = raw_input("your name? ") * 10
+name = raw_input("your name? ") 
 print name * 10
 
 
@@ -93,8 +91,7 @@ print name * 10
 
 
 my_number = raw_input("a number? ")
-my_int = int(my_number)
-print my_int * my_int
+print int(my_number) * int(my_number)
 
 
 
@@ -150,6 +147,7 @@ else:
 #loop forever
 while True:
     print "hello"
+    print "matt"
 
 
 
@@ -217,7 +215,8 @@ time.sleep(5)
 
 
 #challenge!
-#make a loop that prints 'hello' on one line, then 'world' on the next, with a 1 second delay between each line
+#make a loop that prints 'hello' on one line, then 'world' on the next
+#with a 1 second delay between each line
 
 
 
