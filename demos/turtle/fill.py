@@ -1,15 +1,17 @@
 #import all from turtle library
 from turtle import *
-color('red', 'yellow')
+pencolor('red')
+fillcolor( 'yellow')
+speed(5)
 
 #start a fill
 begin_fill()
-while True:
+loops = 0
+
+while loops < 20:
     forward(200)
-    left(160)
-    #break out of the loop when we're back at 0
-    if abs(pos()) < 1:
-        break
+    left(170)
+    loops = loops + 1
     
 #end the fill
 end_fill()
