@@ -6,7 +6,8 @@
 (2 + 3) * 5
 
 
-#challenge! find a sum that gives you a result you didn't expect...
+#challenge! find a sum that gives you
+#a result you didn't expect...
 
 
 
@@ -43,8 +44,8 @@
 
 
 
-#python can't concatenate strings and integers (or floats)
-#so we have to convert them:
+#python can't concatenate strings and integers,
+#or floats, so we have to convert them:
 
 int("5") #converts a string to an int
 float("5.0") #a string to a float
@@ -69,7 +70,10 @@ number = int(raw_input("type a number? "))
 print number
 
 #challenge! 
-#write a program that asks your name and then prints it out 10 times
+#write a program that asks your name and 
+#then prints it out 10 times
+
+
 
 
 
@@ -85,7 +89,8 @@ print name * 10
 
 
 #challenge! 
-#write a program that asks for a number and prints out its square
+#write a program that asks for a number
+#and prints out its square
 
 
 
@@ -103,11 +108,14 @@ print int(my_number) * int(my_number)
 
 
 
-
 #conditionals
 10 > 20
-10 != 10
+10 != 15
 my_str == "hello"
+
+#note the spaces at the start of some of the lines
+#python separates blocks of code with indentation
+#good time to start creating programs with file->new
 
 time = 12
 if time < 12:
@@ -119,9 +127,10 @@ else:
     
 
 
-#challenge! (save this to a new program)
-#write a program that picks a number, and then asks you to guess it.
-#if you get it right, print a message, otherwise print "higher" or "lower"
+#challenge!
+#write a program that picks a number, and then
+#asks you to guess it. if you get it right, print
+#a message, otherwise print "higher" or "lower"
 
 
 
@@ -157,6 +166,7 @@ while loops < 10:
     print loops
     loops = loops + 1
 
+#beginners - jump to library import below...
 
 
 
@@ -215,7 +225,8 @@ time.sleep(5)
 
 
 #challenge!
-#make a loop that prints 'hello' on one line, then 'world' on the next
+#make a loop that prints 'hello' on one line, 
+#then 'world' on the next
 #with a 1 second delay between each line
 
 
@@ -264,8 +275,8 @@ def my_func(a,b):
 print my_func(20,30)
 
 #challenge!
-#write a function that when you call with a number, prints its
-#times table out from 1 to 10
+#write a function that when you call with a number, 
+#prints its times table out from 1 to 10
 
 
 
@@ -310,7 +321,8 @@ for x in range(5,10):
 
 
 #challenge!
-#use your function that printed a times table, and wrap it in a for loop to print 
+#use your function that printed a times table,
+#and wrap it in a for loop to print 
 #the 1 to 10 times tables
 
 
