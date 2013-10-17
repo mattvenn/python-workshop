@@ -4,7 +4,7 @@ import Tkinter
 
 tk = Tkinter.Tk()
 
-image = Image.open("polar.jpg")
+image = Image.open("raspberry.jpg")
 photo = ImageTk.PhotoImage(image)
 label = Tkinter.Label(image=photo)
 
