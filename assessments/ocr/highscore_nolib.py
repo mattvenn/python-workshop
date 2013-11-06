@@ -8,16 +8,18 @@ The system must be able to
 * locate and update a high score for a user 
 The system need only cater for 10 items
 """
-import csv
 
-csv_file = 'scores.csv'
+csv_file = 'scores2.csv'
 
 def write_data(data):
-    file = open(csv_file,'w')
-    writer = csv.writer(file)
+    file = open(csv_file,'w+')
+    import ipdb; ipdb.set_trace()
     #write the old data
     for row in data:
-        writer.writerow(row)
+        print row
+        csv_line = ','.join(row)
+        print csv_line
+        file.write(csv_line + "\n")
     file.close()
 
 #writing
@@ -31,13 +33,17 @@ def read_file():
     try:
         file = open(csv_file)
         data = []
-        reader = csv.reader(file)
-        for row in reader:
+        for csv_line in file.readlines():
+            #get rid of new line character
+            csv_line = csv_line.strip()
+            row = csv_line.split(',')
             data.append(row)
         return data
+    #error thrown if no file
     except IOError:
         #return empty array
         return []
+        
 
 #delete
 def delete(name,score):
@@ -84,7 +90,7 @@ while True:
         exit(1)
     if choice == 1:
         name = raw_input("name: ")
-        score = int(raw_input("score: "))
+        score = raw_input("score: ")
         add_data(name,score)
     if choice == 2:
         data = read_file()
