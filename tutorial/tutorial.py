@@ -151,6 +151,17 @@ else:
 
 
 
+#challenge! write a simple user interface to do X
+#see the ocr highscores for an example
+
+
+
+
+
+
+
+
+
 
 #loops!
 #loop forever
@@ -306,18 +317,26 @@ times(3)
 
 
 #arrays
-array = [ "cat", 100.5, False ]
-
+array = [ "cat", "dog", "mouse" ]
 print array[1]
 
+#joining arrays into a string - contents of array must be strings
+":".join(array)
+
+#print each item in the array
 for i in array:
     print i
 
+#an easy way to get a range of numbers
 array = range(10)
 
+#a simpler way of doing a loop a certain number of types
 for x in range(5,10):
     print x
 
+#splitting a string into an array
+string = "cat,dog,mouse"
+string.split(',')
 
 
 #challenge!
@@ -344,3 +363,146 @@ for table in range(1,11):
 
 
 
+
+
+"""
+exceptions
+remember the type conversions from the beginning? int(),str(),float()
+what happens when we try to convert a string to a float, 
+but the string doesn't contain a float?
+"""
+float("hello")
+
+"""
+we can handle exceptions with 2 new keywords, try and except
+"""
+try:
+    float("hello")
+except ValueError:
+    print "not a float"
+
+
+#challenge: write a little program that repeatedly asks for the user
+#to type a number, and it will only finish when user types a number
+#more than 0. The program must be able to handle the case when the 
+#user types in something that python can't convert to a number...
+
+
+
+
+
+
+
+
+
+
+while True:
+    try:
+        a = raw_input("type a float more than 0: ")
+        a = float(a)
+        if a > 0:
+            break
+    except ValueError:
+        print "not a float"
+
+
+
+
+
+
+
+
+
+"""
+file IO (input/output)
+writing a file
+"""
+fh = open("myfile.txt",'w')
+fh.write("hello world")
+
+
+
+##challenge
+#write a program that writes "hello world" 100 times in a file
+#can you get the file to have each "hello world" on a separate line?
+
+
+
+
+
+
+
+
+
+
+
+
+
+fh = open("myfile.txt",'w')
+for i in range(100):
+    #we have to explicitly add the newline character to get separate lines
+    #unlike the print function
+    fh.write("hello world\n")
+    
+
+#file reading:
+fh = open("myfile.txt",'r')
+print fh.readlines()
+
+
+
+"""
+challenge: write a program that reads all the lines of your file,
+and prints them out one after the other. 
+At the end, display how many lines there were in the file.
+"""
+
+
+
+
+
+
+
+
+
+fh = open("myfile.txt",'r')
+lines = fh.readlines()
+line_counter = 0
+for line in lines:
+    print line, #the comma prevents print from adding an extra newline
+    line_counter += 1
+print "there were", line_counter, "lines in the file"
+
+
+
+"""
+challenge: go back to your times table example. Modify the program so 
+instead of printing to the screen, it writes each table to a separate
+file
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+#our function
+def times(number):
+    file_name = str(number) + ".txt"
+    fh = open(file_name,'w')
+    fh.write("the " + str(number) + " times table\n")
+    loop = 1
+    while loop <= 10:
+        fh.write( str(number) + " x " + str(loop) + " = " + str( loop * number ) + "\n")
+        loop += 1
+
+
+#run it for the first 10 tables
+for table in range(1,11):
+    times(table)
