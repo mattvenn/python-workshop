@@ -11,6 +11,7 @@ The system need only cater for 10 items
 
 csv_file = 'scores2.csv'
 
+#write the data
 def write_data(data):
     file = open(csv_file,'w+')
     import ipdb; ipdb.set_trace()
@@ -22,7 +23,7 @@ def write_data(data):
         file.write(csv_line + "\n")
     file.close()
 
-#writing
+#adding to the file
 def add_data(name,score):
     data = read_file()
     data.append([name,score])
@@ -56,6 +57,7 @@ def delete(name,score):
     #write the new data
     write_data(data)
 
+#go through all the scores and find the highest
 def find_highest_score():
     data = read_file()
     score = 0
@@ -68,6 +70,7 @@ def find_highest_score():
     print "highest score is", score, "by", name
         
 
+#print out all scores with this name
 def find_name(name):
     data = read_file()
     print "high scores for", name
@@ -87,6 +90,7 @@ while True:
     """
     choice = int(raw_input("choose option: "))
     if choice == 0:
+        #exit
         exit(1)
     if choice == 1:
         name = raw_input("name: ")

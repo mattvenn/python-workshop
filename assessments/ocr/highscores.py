@@ -12,6 +12,7 @@ import csv
 
 csv_file = 'scores.csv'
 
+#write the data
 def write_data(data):
     file = open(csv_file,'w')
     writer = csv.writer(file)
@@ -20,7 +21,7 @@ def write_data(data):
         writer.writerow(row)
     file.close()
 
-#writing
+#adding to the file
 def add_data(name,score):
     data = read_file()
     data.append([name,score])
@@ -36,12 +37,13 @@ def read_file():
             data.append(row)
         return data
     except IOError:
-        #return empty array
+        #return empty array if the file doesn't exist
         return []
 
 #delete
 def delete(name,score):
     data = read_file()
+    #search the array
     if([name,score] in data):
         print "removing record" 
         data.remove([name,score])
@@ -50,6 +52,7 @@ def delete(name,score):
     #write the new data
     write_data(data)
 
+#go through all the scores and find the highest
 def find_highest_score():
     data = read_file()
     score = 0
@@ -62,6 +65,7 @@ def find_highest_score():
     print "highest score is", score, "by", name
         
 
+#print out all scores with this name
 def find_name(name):
     data = read_file()
     print "high scores for", name
@@ -81,6 +85,7 @@ while True:
     """
     choice = int(raw_input("choose option: "))
     if choice == 0:
+        #quit
         exit(1)
     if choice == 1:
         name = raw_input("name: ")
