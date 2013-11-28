@@ -151,8 +151,11 @@ else:
 
 
 
-#challenge! write a simple user interface to do X
-#see the ocr highscores for an example
+#challenge! write a simple user interface to:
+
+#if the user types 0, finish
+#if the user types 1, print hello
+#if the user types 2, print goodbye
 
 
 
@@ -419,7 +422,7 @@ writing a file
 """
 fh = open("myfile.txt",'w')
 fh.write("hello world")
-
+fh.close()
 
 
 ##challenge
