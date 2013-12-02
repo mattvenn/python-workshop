@@ -153,9 +153,9 @@ else:
 
 #challenge! write a simple user interface to:
 
-#if the user types 0, finish
 #if the user types 1, print hello
 #if the user types 2, print goodbye
+#otherwise say "computer says no"
 
 
 
@@ -163,6 +163,17 @@ else:
 
 
 
+
+
+print "press 1 to say hello"
+print "press 2 to say goodbye"
+choice = int(raw_input("your choice? "))
+if choice == 1:
+    print "hello"
+elif choice == 2:
+    print "goodbye"
+else:
+    print "computer says no"
 
 
 
@@ -311,6 +322,30 @@ def times(number):
 
 times(5)
 times(3)
+
+#challenge!
+#now add something that asks you for the number.
+
+
+
+
+
+
+
+
+
+
+
+
+
+#sabotage!!
+
+
+
+
+
+
+
 
 
 
