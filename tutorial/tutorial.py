@@ -51,7 +51,7 @@ int("5") #converts a string to an int
 float("5.0") #a string to a float
 str(5.2) #an int or a float to a string
 
-print "hello " + str(5.2)
+print("hello " + str(5.2))
 
 
 #variables, assign with =
@@ -64,22 +64,23 @@ my_str * my_num
 
 
 #getting user input
-name = raw_input("what's your name? ")
-print name
-number = int(raw_input("type a number? "))
-print number
+name = input("what's your name? ")
+print(name)
+number = int(input("type a number? "))
+print(number)
 
 #challenge! 
-#write a program that asks your name and 
-#then prints it out 10 times
+#write a program that asks your name and how many times to print it
+#then prints your name that number of times
 
 
 
 
 
 
-name = raw_input("your name? ") 
-print name * 10
+name = input("your name? ") 
+number = input("number of times? ") 
+print(name * int(number))
 
 
 
@@ -95,8 +96,8 @@ print name * 10
 
 
 
-my_number = raw_input("a number? ")
-print int(my_number) * int(my_number)
+my_number = input("a number? ")
+print(int(my_number) * int(my_number))
 
 
 
@@ -119,11 +120,11 @@ my_str == "hello"
 
 time = 12
 if time < 12:
-    print "morning!"
+    print("morning!")
 elif time >= 12 and time < 18:
-    print "afternoon!"
+    print("afternoon!")
 else:
-    print "evening!"
+    print("evening!")
     
 
 
@@ -136,14 +137,14 @@ else:
 
 secret = 10
 
-guess = int(raw_input("a number? "))
+guess = int(input("a number? "))
 
 if guess == secret:
-    print "you got it right!"
+    print("you got it right!")
 elif guess < secret:
-    print "higher"
+    print("higher")
 else:
-    print "lower"
+    print("lower")
 
 
 
@@ -165,45 +166,51 @@ else:
 
 
 
-print "press 1 to say hello"
-print "press 2 to say goodbye"
-choice = int(raw_input("your choice? "))
+print("press 1 to say hello")
+print("press 2 to say goodbye")
+choice = int(input("your choice? "))
 if choice == 1:
-    print "hello"
+    print("hello")
 elif choice == 2:
-    print "goodbye"
+    print("goodbye")
 else:
-    print "computer says no"
+    print("computer says no")
+
+
 
 
 
 #loops!
 #loop forever
 while True:
-    print "hello"
-    print "matt"
+    print("hello")
+    print("matt")
+    break
 
 
 
 #loop for a certain number of times
 loops = 0
 while loops < 10:
-    print loops
+    print(loops)
     loops = loops + 1
 
 #beginners - jump to library import below...
 
 
 
+
+
+
 #break out of a loop
 while True:
-    password = raw_input("password: ")
+    password = input("password: ")
 
     if password == "secret":
-        print "correct"
+        print("correct")
         break
     else:
-        print "wrong!"
+        print("wrong!")
 
 
 #challenge!
@@ -222,18 +229,18 @@ secret = 10
 while True:
     guesses = guesses + 1
     if guesses > 10:
-        print "too many guesses!"
+        print("too many guesses!")
         break
 
-    guess = int(raw_input("a number? "))
+    guess = int(input("a number? "))
 
     if guess == secret:
-        print "you got it right!"
+        print("you got it right!")
         break
     elif guess < secret:
-        print "higher"
+        print("higher")
     else:
-        print "lower"
+        print("lower")
 
 
 
@@ -264,9 +271,9 @@ time.sleep(5)
 
 import time
 while True:
-    print "hello"
+    print("hello")
     time.sleep(1)
-    print "world"
+    print("world")
     time.sleep(1)
     
 
@@ -287,7 +294,7 @@ random.randint(1,10)
 
 
 secret = random.randint(1,10)
-print "you have 10 guesses to pick a number from 1 to 10"
+print("you have 10 guesses to pick a number from 1 to 10")
 
 
 
@@ -297,7 +304,7 @@ print "you have 10 guesses to pick a number from 1 to 10"
 def my_func(a,b):
     return a * b
 
-print my_func(20,30)
+print(my_func(20,30))
 
 #challenge!
 #write a function that when you call with a number, 
@@ -314,10 +321,10 @@ print my_func(20,30)
 
 
 def times(number):
-    print "the " + str(number) + " times table"
+    print("the " + str(number) + " times table")
     loop = 1
     while loop <= 10:
-        print loop, loop * number
+        print(loop, loop * number)
         loop += 1
 
 times(5)
@@ -354,25 +361,25 @@ times(3)
 
 
 
-#arrays
-array = [ "cat", "dog", "mouse" ]
-print array[1]
+#list
+my_list = [ "cat", "dog", "mouse" ]
+print(my_list[1])
 
-#joining arrays into a string - contents of array must be strings
-":".join(array)
+#joining lists into a string - contents of my_list must be strings
+":".join(my_list)
 
-#print each item in the array
-for i in array:
-    print i
+#print each item in the list
+for i in my_list:
+    print(i)
 
 #an easy way to get a range of numbers
-array = range(10)
+my_list = range(10)
 
 #a simpler way of doing a loop a certain number of types
 for x in range(5,10):
-    print x
+    print(x)
 
-#splitting a string into an array
+#splitting a string into an list
 string = "cat,dog,mouse"
 string.split(',')
 
@@ -417,7 +424,7 @@ we can handle exceptions with 2 new keywords, try and except
 try:
     float("hello")
 except ValueError:
-    print "not a float"
+    print("not a float")
 
 
 #challenge: write a little program that repeatedly asks for the user
@@ -436,12 +443,12 @@ except ValueError:
 
 while True:
     try:
-        a = raw_input("type a float more than 0: ")
+        a = input("type a float more than 0: ")
         a = float(a)
         if a > 0:
             break
     except ValueError:
-        print "not a float"
+        print("not a float")
 
 
 
@@ -460,32 +467,11 @@ fh.write("hello world")
 fh.close()
 
 
-##challenge
-#write a program that writes "hello world" 100 times in a file
-#can you get the file to have each "hello world" on a separate line?
-
-
-
-
-
-
-
-
-
-
-
-
-
-fh = open("myfile.txt",'w')
-for i in range(100):
-    #we have to explicitly add the newline character to get separate lines
-    #unlike the print function
-    fh.write("hello world\n")
     
 
 #file reading:
 fh = open("myfile.txt",'r')
-print fh.readlines()
+print(fh.readlines())
 
 
 
@@ -507,9 +493,9 @@ fh = open("myfile.txt",'r')
 lines = fh.readlines()
 line_counter = 0
 for line in lines:
-    print line, #the comma prevents print from adding an extra newline
+    print(line,end='') #the end argument set to nothing prevents print from adding an extra newline
     line_counter += 1
-print "there were", line_counter, "lines in the file"
+print("there were", line_counter, "lines in the file")
 
 
 

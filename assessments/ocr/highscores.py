@@ -45,10 +45,10 @@ def delete(name,score):
     data = read_file()
     #search the array
     if([name,score] in data):
-        print "removing record" 
+        print("removing record")
         data.remove([name,score])
     else:
-        print "couldn't find a matching record"
+        print("couldn't find a matching record")
     #write the new data
     write_data(data)
 
@@ -62,44 +62,44 @@ def find_highest_score():
         if int(row[1]) > score:
             score = int(row[1])
             name = row[0]
-    print "highest score is", score, "by", name
+    print("highest score is", score, "by", name)
         
 
 #print out all scores with this name
 def find_name(name):
     data = read_file()
-    print "high scores for", name
+    print("high scores for", name)
     for row in data:
         if row[0] == name:
-            print row[1]
+            print(row[1])
 
 #user interface
 while True:
-    print """
+    print( """
     0: quit
     1: add to the file
     2: read file
     3: delete a record
     4: find highest score
     5: find name
-    """
-    choice = int(raw_input("choose option: "))
+    """)
+    choice = int(input("choose option: "))
     if choice == 0:
         #quit
         exit(1)
     if choice == 1:
-        name = raw_input("name: ")
-        score = int(raw_input("score: "))
+        name = input("name: ")
+        score = int(input("score: "))
         add_data(name,score)
     if choice == 2:
         data = read_file()
-        print data
+        print(data)
     if choice == 3:
-        name = raw_input("name: ")
-        score = raw_input("score: ")
+        name = input("name: ")
+        score = input("score: ")
         delete(name,score)
     if choice == 4:
         find_highest_score()
     if choice == 5:
-        name = raw_input("name: ")
+        name = input("name: ")
         find_name(name)
