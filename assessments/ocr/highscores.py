@@ -83,23 +83,23 @@ while True:
     4: find highest score
     5: find name
     """)
-    choice = int(input("choose option: "))
+    choice = int(raw_input("choose option: "))
     if choice == 0:
         #quit
         exit(1)
     if choice == 1:
-        name = input("name: ")
-        score = int(input("score: "))
+        name = raw_input("name: ")
+        score = int(raw_input("score: "))
         add_data(name,score)
     if choice == 2:
         data = read_file()
         print(data)
     if choice == 3:
-        name = input("name: ")
-        score = input("score: ")
+        name = raw_input("name: ")
+        score = raw_input("score: ")
         delete(name,score)
     if choice == 4:
         find_highest_score()
     if choice == 5:
-        name = input("name: ")
+        name = raw_input("name: ")
         find_name(name)

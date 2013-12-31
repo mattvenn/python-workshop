@@ -19,7 +19,7 @@ def topup():
     #we need to use the global balance variable
     global balance
     print("topup")
-    extra_credit = int(input("how much extra credit?"))
+    extra_credit = int(raw_input("how much extra credit?"))
     #check it's not too much
     if balance + extra_credit > 30:
         print("too much credit")
@@ -32,7 +32,7 @@ def topup():
 def buy(ticket_type):
     global balance
     print("ticket:", ticket_type)
-    travellers = int(input("how many travellers?"))
+    travellers = int(raw_input("how many travellers?"))
     if travellers < 0:
         print("not enough travellers!")
         return
@@ -60,7 +60,7 @@ while True:
     print("1 top up")
     print("2 single")
     print("3 return")
-    code = int(input("type code:"))
+    code = int(raw_input("type code:"))
     if code == 1:
         topup()
     elif code == 2:

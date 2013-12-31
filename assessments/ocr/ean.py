@@ -17,7 +17,7 @@ def checksum(product_code):
 
 #get a code from the user and check it
 def test():
-    product_code = input('13 digit ean')
+    product_code = raw_input('13 digit ean')
 
     if len(product_code) != 13:
         print("bad length, must be 13")

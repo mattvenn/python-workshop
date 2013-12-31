@@ -24,10 +24,10 @@ while True:
     password = raw_input("enter password: ")
 
     if len(password) > 6 and len(password) < 12:
-        print "password acceptable"
+        print("password acceptable")
         break
     else:
-        print "password is too long or short, please try again."
+        print("password is too long or short, please try again.")
 
 #setup some counters for our chars
 lowercase = 0
@@ -54,8 +54,8 @@ if lowercase > 0:
  
 #print out our verdict
 if strength <= 1:
-    print "weak"
+    print("weak")
 elif strength == 2:
-    print "medium"
+    print("medium")
 else:
-    print "strong"
+    print("strong")
