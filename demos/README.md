@@ -1,3 +1,8 @@
-# python2 vs python 3
+# python2 demos
 
-all demos using python2 while libraries are checked/installed
+most demos using python2 while libraries are checked/installed
+
+# python 3 demos
+
+* turtle 
+

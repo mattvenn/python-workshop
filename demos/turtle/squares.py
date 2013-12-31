@@ -22,5 +22,5 @@ for i in range(num_squares):
     left(360/num_squares)
     sqare(size)
 
-print done
+print(done)
 done()
