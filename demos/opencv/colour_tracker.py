@@ -26,8 +26,8 @@ while(1):
 
     # convert to hsv and find range of colors
     hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
-    lower = np.array((170,220,125))
-    upper = np.array((185,235,145))
+    lower = np.array((40,90,80))
+    upper = np.array((60,110,100))
     thresh = cv2.inRange(hsv,lower,upper)
 
     # find contours in the threshold image

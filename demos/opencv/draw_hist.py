@@ -63,5 +63,9 @@ while(1):
     k = cv2.waitKey(5) & 0xFF
     if k == 27:
         break
+    if k == 99: #c key
+        print("capture")
+        print(hsv)
+        break
 
 cv2.destroyAllWindows()
