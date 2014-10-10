@@ -19,21 +19,27 @@ class Calculator:
 
         self.add_button = Button(master, text="+", command=self.add)
         self.sub_button = Button(master, text="-", command=self.sub)
-        self.clear_button = Button(master, text="clear", command=self.clear)
+        self.clear_button = Button(master, text="c", command=self.clear)
         self.equals_button = Button(master, text="=", command=self.equals)
 
-        self.num_buttons = []
-        for number in range(10):
+        #do buttons in a loop
+        row = 1
+        for number in range(0,10):
             button = Button(master, text=number, command=lambda x=number: self.update_number(x))
-            button.pack()
-            self.num_buttons.append(button)
+            if number == 0:
+                button.grid(row=4,column=1)
+                print("adding button 0")
+            else:
+                button.grid(row=row,column=(number-1)%3)
+                if number %3 == 0:
+                    row += 1
 
         # LAYOUT
-        self.result.pack()
-        self.add_button.pack()
-        self.sub_button.pack()
-        self.clear_button.pack()
-        self.equals_button.pack()
+        self.result.grid(row=0,column=0,columnspan=4)
+        self.add_button.grid(row=1,column=3)
+        self.sub_button.grid(row=2,column=3)
+        self.clear_button.grid(row=3,column=3)
+        self.equals_button.grid(row=4,column=3)
 
     def equals(self):
         if self.operation == '+':
