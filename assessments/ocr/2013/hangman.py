@@ -1,9 +1,14 @@
 import random
 
-# TODO: allow end user to put in new words
-
-# set of related words in an array
-words = [ 'python', 'rattlesnake', 'adder', 'cobra' ]
+#allow end user to put in new words
+ask = raw_input("input new words? (y/n): ")
+if ask == 'y':
+    new_words = raw_input("type comma separated words: ")
+    words = new_words.split(',')
+    print("new words: " + ','.join(words))
+else:
+    # set of related words in an array
+    words = [ 'python', 'rattlesnake', 'adder', 'cobra' ]
 
 # select a random word
 word = random.choice(words)
