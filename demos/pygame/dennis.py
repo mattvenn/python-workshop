@@ -3,6 +3,7 @@ Dare Devil Dennis?
 """
  
 import pygame
+import random
  
 """
 Global constants
@@ -15,12 +16,12 @@ BLUE     = (   0,   0, 255)
 GREEN     = (  0, 255,   0)
  
 # Screen dimensions
-SCREEN_WIDTH  = 800
+screen_width  = 800
 level_height = 150
 levels = 3
-SCREEN_HEIGHT = level_height * levels
+screen_height = level_height * levels
 gravity = 2.5
-jump_acc = gravity * 2.5
+jump_acc = gravity * 2.3
  
 # This class represents the bar at the bottom that the player controls
 class Player(pygame.sprite.Sprite):
@@ -46,6 +47,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = x
         self.on_ground = False
         self.level = 0
+        self.crash = False
  
     def changespeed(self, x, y):
         """ Change the speed of the player. """
@@ -56,7 +58,7 @@ class Player(pygame.sprite.Sprite):
 
         if self.change_y > gravity:
             self.change_y = gravity
-        print( self.change_y )
+        #print( self.change_y )
 
 
     def update(self):
@@ -73,7 +75,7 @@ class Player(pygame.sprite.Sprite):
             else:
                 # Otherwise if we are moving left, do the opposite.
                 self.rect.left = block.rect.right
-        if self.rect.x > SCREEN_WIDTH:
+        if self.rect.x > screen_width:
             self.level += 1
             self.rect.x = 0
             self.rect.y += level_height
@@ -90,11 +92,33 @@ class Player(pygame.sprite.Sprite):
                 self.rect.bottom = block.rect.top
             else:
                 self.rect.top = block.rect.bottom
+        
+        block_hit_list = pygame.sprite.spritecollide(self, self.obs, False)
+        for block in block_hit_list:
+            self.crash = True
+            print("crash!")
  
+class Fence(pygame.sprite.Sprite):
+    """ Wall the player can run into. """
+    def __init__(self, x, y, height):
+        """ Constructor for fences """
+        # Call the parent's constructor
+        pygame.sprite.Sprite.__init__(self)
+        width = 10
+ 
+        # Make a blue wall, of the size specified in the parameters
+        self.image = pygame.Surface([width, height])
+        self.image.fill(BLUE)
+ 
+        # Make our top-left corner the passed-in location.
+        self.rect = self.image.get_rect()
+        self.rect.bottom = y
+        self.rect.x = x
+
 class Wall(pygame.sprite.Sprite):
     """ Wall the player can run into. """
     def __init__(self, x, y, width, height):
-        """ Constructor for the wall that the player can run into. """
+        """ Constructor for the ground """
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
  
@@ -111,8 +135,8 @@ class Wall(pygame.sprite.Sprite):
 # Call this function so the Pygame library can initialize itself
 pygame.init()
  
-# Create an 800x600 sized screen
-screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+# Create sized screen
+screen = pygame.display.set_mode([screen_width, screen_height])
  
 # Set the title of the window
 pygame.display.set_caption('Test')
@@ -125,14 +149,25 @@ wall_list = pygame.sprite.Group()
  
 ground_th = 10
 for level in range(0,levels):
-    wall = Wall(0, level_height + level_height * level - ground_th, SCREEN_WIDTH, ground_th)
+    wall = Wall(0, level_height + level_height * level - ground_th, screen_width, ground_th)
     wall_list.add(wall)
     all_sprite_list.add(wall)
- 
+
+# create obstacles
+obs_list = pygame.sprite.Group()
+for level in range(0,levels):
+    for f in range(random.randint(0,3)):
+        x = random.randint(20,screen_width-20)
+        h = random.randint(10,50)
+        fence = Fence(x,level_height + level_height * level - ground_th, h)
+        obs_list.add(fence)
+        all_sprite_list.add(fence)
+
  
 # Create the player paddle object
-player = Player(50, 50)
+player = Player(50, level_height / 2)
 player.walls = wall_list
+player.obs = obs_list
  
 all_sprite_list.add(player)
  
@@ -142,13 +177,16 @@ done = False
  
 while not done:
  
+    #allow click on window close button
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
     #keys
     kp = pygame.key.get_pressed()
     if kp[pygame.K_q]:
-        player.changespeed(0.1, 0)
+        #can only accelarate when we are on the ground
+        if player.on_ground:
+            player.changespeed(0.1, 0)
     if kp[pygame.K_w]:
         done = True
     if kp[pygame.K_SPACE]:
@@ -164,6 +202,9 @@ while not done:
  
     all_sprite_list.draw(screen)
     if player.level == levels:
+        done = True
+
+    if player.crash:
         done = True
  
     pygame.display.flip()
