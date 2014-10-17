@@ -38,8 +38,12 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
  
         # Set height, width
-        self.image = pygame.Surface([15, 15])
-        self.image.fill(WHITE)
+        self.image = pygame.image.load("sprites/dennis.png").convert()
+ 
+        # Set our transparent color
+        self.image.set_colorkey(BLACK)
+        #self.image = pygame.Surface([15, 15])
+        #self.image.fill(WHITE)
  
         # Make our top-left corner the passed-in location.
         self.rect = self.image.get_rect()
@@ -98,19 +102,26 @@ class Player(pygame.sprite.Sprite):
             self.crash = True
             print("crash!")
  
-class Fence(pygame.sprite.Sprite):
-    """ Wall the player can run into. """
-    def __init__(self, x, y, height):
+class Obstacle(pygame.sprite.Sprite):
+    """ Things the player can run into. """
+    def __init__(self, x, y):
         """ Constructor for fences """
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
-        width = 10
  
-        # Make a blue wall, of the size specified in the parameters
-        self.image = pygame.Surface([width, height])
-        self.image.fill(BLUE)
+        t = random.randint(0,2)
+        if t == 0:
+            sprite = 'house.png'
+        elif t == 1:
+            sprite = 'grave.png'
+        elif t == 2:
+            sprite = 'tree.png'
+        self.image = pygame.image.load("sprites/" + sprite).convert()
  
-        # Make our top-left corner the passed-in location.
+        # Set our transparent color
+        self.image.set_colorkey(BLACK)
+ 
+        # Make our bottom-left corner the passed-in location.
         self.rect = self.image.get_rect()
         self.rect.bottom = y
         self.rect.x = x
@@ -156,12 +167,13 @@ for level in range(0,levels):
 # create obstacles
 obs_list = pygame.sprite.Group()
 for level in range(0,levels):
-    for f in range(random.randint(0,3)):
-        x = random.randint(20,screen_width-20)
-        h = random.randint(10,50)
-        fence = Fence(x,level_height + level_height * level - ground_th, h)
-        obs_list.add(fence)
-        all_sprite_list.add(fence)
+    for f in range(random.randint(1,2)):
+        x = random.randint(100,screen_width-100)
+        obs = Obstacle(x,level_height + level_height * level - ground_th)
+        #ensure if another obstacle, not on top of this one
+        x += 100
+        obs_list.add(obs)
+        all_sprite_list.add(obs)
 
  
 # Create the player paddle object
