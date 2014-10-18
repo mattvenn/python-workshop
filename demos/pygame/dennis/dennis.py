@@ -4,9 +4,12 @@ Dare Devil Dennis?
  
 import pygame
 import random
+import pygame.mixer
 from levels import levels
 
 level_num = 0
+pygame.mixer.pre_init(44100, 16, 2, 4096)
+pygame.mixer.init()
  
 """
 Global constants
@@ -42,6 +45,9 @@ class Player(pygame.sprite.Sprite):
  
         # Set height, width
         self.image = pygame.image.load("sprites/dennis.png").convert()
+        self.crash_sound = pygame.mixer.Sound('bell.wav') 
+        self.crash_sound.set_volume(0.4)
+
  
         # Set our transparent color
         self.image.set_colorkey(BLACK)
@@ -112,6 +118,7 @@ class Player(pygame.sprite.Sprite):
         block_hit_list = pygame.sprite.spritecollide(self, self.obs, False)
         for block in block_hit_list:
             self.crash = True
+            self.crash_sound.play()
             print("crash!")
  
 class Obstacle(pygame.sprite.Sprite):
