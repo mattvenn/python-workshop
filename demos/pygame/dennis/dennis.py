@@ -4,6 +4,7 @@ Dare Devil Dennis?
  
 import pygame
 import random
+from levels import levels
  
 """
 Global constants
@@ -17,9 +18,9 @@ GREEN     = (  0, 255,   0)
  
 # Screen dimensions
 screen_width  = 800
-level_height = 150
-levels = 3
-screen_height = level_height * levels
+floor_height = 150
+floors = 3
+screen_height = floor_height * floors
 gravity = 2.5
 jump_acc = gravity * 2.3
  
@@ -33,7 +34,7 @@ class Player(pygame.sprite.Sprite):
     walls = None
  
     # Constructor function
-    def __init__(self, x, y):
+    def __init__(self):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
  
@@ -47,12 +48,18 @@ class Player(pygame.sprite.Sprite):
  
         # Make our top-left corner the passed-in location.
         self.rect = self.image.get_rect()
-        self.rect.y = y
-        self.rect.x = x
         self.on_ground = False
-        self.level = 0
         self.crash = False
- 
+
+    def start(self):
+        self.change_x = 0
+        self.change_y = 0
+        self.rect.y = 50
+        self.rect.x = floor_height / 2
+        self.on_ground = False
+        self.crash = False
+        self.floor = 0
+        
     def changespeed(self, x, y):
         """ Change the speed of the player. """
         self.change_x += x
@@ -80,9 +87,9 @@ class Player(pygame.sprite.Sprite):
                 # Otherwise if we are moving left, do the opposite.
                 self.rect.left = block.rect.right
         if self.rect.x > screen_width:
-            self.level += 1
+            self.floor += 1
             self.rect.x = 0
-            self.rect.y += level_height
+            self.rect.y += floor_height
         # Move up/down
         self.rect.y += self.change_y
  
@@ -104,18 +111,12 @@ class Player(pygame.sprite.Sprite):
  
 class Obstacle(pygame.sprite.Sprite):
     """ Things the player can run into. """
-    def __init__(self, x, y):
-        """ Constructor for fences """
+    def __init__(self, x, y,type):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
  
         t = random.randint(0,2)
-        if t == 0:
-            sprite = 'house.png'
-        elif t == 1:
-            sprite = 'grave.png'
-        elif t == 2:
-            sprite = 'tree.png'
+        sprite = type + '.png'
         self.image = pygame.image.load("sprites/" + sprite).convert()
  
         # Set our transparent color
@@ -125,6 +126,47 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.bottom = y
         self.rect.x = x
+
+class MovingObstacle(pygame.sprite.Sprite):
+    def __init__(self,x,y):
+        # Call the parent's constructor
+        pygame.sprite.Sprite.__init__(self)
+ 
+        t = random.randint(0,0)
+        if t == 0:
+            sprite = 'police.png'
+        self.image = pygame.image.load("sprites/" + sprite).convert()
+ 
+        # Set our transparent color
+        self.image.set_colorkey(BLACK)
+ 
+        # Make our bottom-left corner the passed-in location.
+        self.rect = self.image.get_rect()
+        self.rect.bottom = y
+        self.start_y = y
+        self.rect.x = x
+        #rects have to be defined as ints, so make a separate y that can be higher res
+        self.y = 0
+        self.speed = random.random()
+        if self.speed < 0.5:
+            self.speed += 0.5
+        self.up = True
+        self.max_move = - floor_height / 3
+
+    def update(self):
+
+        if self.y <= self.max_move:
+            self.up = False
+        elif self.y >= 0:
+            self.up = True
+        #update the high res y
+        if self.up:
+            self.y -= self.speed
+        else:
+            self.y += self.speed
+        #then copy to rect
+        self.rect.bottom = self.start_y + int(self.y)
+        
 
 class Wall(pygame.sprite.Sprite):
     """ Wall the player can run into. """
@@ -150,43 +192,52 @@ pygame.init()
 screen = pygame.display.set_mode([screen_width, screen_height])
  
 # Set the title of the window
-pygame.display.set_caption('Test')
+pygame.display.set_caption('Dennis')
  
-# List to hold all the sprites
-all_sprite_list = pygame.sprite.Group()
- 
-# Make the walls. (x_pos, y_pos, width, height)
-wall_list = pygame.sprite.Group()
- 
-ground_th = 10
-for level in range(0,levels):
-    wall = Wall(0, level_height + level_height * level - ground_th, screen_width, ground_th)
-    wall_list.add(wall)
-    all_sprite_list.add(wall)
 
-# create obstacles
-obs_list = pygame.sprite.Group()
-for level in range(0,levels):
-    for f in range(random.randint(1,2)):
-        x = random.randint(100,screen_width-100)
-        obs = Obstacle(x,level_height + level_height * level - ground_th)
-        #ensure if another obstacle, not on top of this one
-        x += 100
+all_sprite_list = pygame.sprite.Group()
+wall_list = pygame.sprite.Group()
+
+def load_level(level_num,all_sprite_list,player):
+    # empty the list
+    all_sprite_list.empty()
+    # Make the walls. (x_pos, y_pos, width, height)
+    wall_list = pygame.sprite.Group()
+
+    #create the level!
+    #start with floors. Get the gaps:
+    ground_th = 10
+    for floor in range(0,floors):
+        for seg in levels[level_num]['floors'][floor]:
+            wall = Wall(seg[0] * screen_width, floor_height + floor_height * floor - ground_th, seg[1]*screen_width, ground_th)
+            wall_list.add(wall)
+            all_sprite_list.add(wall)
+
+    # create obstacles
+    obs_list = pygame.sprite.Group()
+    for o in levels[level_num]['obs']:
+        if o['type'] == 'police':
+            obs = MovingObstacle(o['x']*screen_width,floor_height + floor_height * o['floor'] - ground_th)
+        else:
+            obs = Obstacle(o['x']*screen_width,floor_height + floor_height * o['floor'] - ground_th,o['type'])
         obs_list.add(obs)
         all_sprite_list.add(obs)
 
+    player.start()
+    player.walls = wall_list
+    player.obs = obs_list
+    all_sprite_list.add(player)
  
 # Create the player paddle object
-player = Player(50, level_height / 2)
-player.walls = wall_list
-player.obs = obs_list
- 
-all_sprite_list.add(player)
- 
+player = Player()
+
 clock = pygame.time.Clock()
  
 done = False
- 
+
+level_num = 0
+load_level(level_num,all_sprite_list,player)
+print("starting")
 while not done:
  
     #allow click on window close button
@@ -213,8 +264,9 @@ while not done:
     screen.fill(BLACK)
  
     all_sprite_list.draw(screen)
-    if player.level == levels:
-        done = True
+    if player.floor == floors:
+        level_num += 1
+        load_level(level_num,all_sprite_list,player)
 
     if player.crash:
         done = True
