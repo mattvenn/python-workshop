@@ -5,6 +5,8 @@ Dare Devil Dennis?
 import pygame
 import random
 from levels import levels
+
+level_num = 0
  
 """
 Global constants
@@ -50,6 +52,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.on_ground = False
         self.crash = False
+        self.lives = 3
 
     def start(self):
         self.change_x = 0
@@ -58,7 +61,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = floor_height / 2
         self.on_ground = False
         self.crash = False
-        self.floor = 0
+        self.finish = False
         
     def changespeed(self, x, y):
         """ Change the speed of the player. """
@@ -86,9 +89,11 @@ class Player(pygame.sprite.Sprite):
             else:
                 # Otherwise if we are moving left, do the opposite.
                 self.rect.left = block.rect.right
+        #what to do if gone off the screen
         if self.rect.x > screen_width:
-            self.floor += 1
             self.rect.x = 0
+            if self.rect.y > floor_height * 2:
+                self.finish = True
             self.rect.y += floor_height
         # Move up/down
         self.rect.y += self.change_y
@@ -128,7 +133,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect.x = x
 
 class MovingObstacle(pygame.sprite.Sprite):
-    def __init__(self,x,y):
+    def __init__(self,x,y,speed):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
  
@@ -147,9 +152,7 @@ class MovingObstacle(pygame.sprite.Sprite):
         self.rect.x = x
         #rects have to be defined as ints, so make a separate y that can be higher res
         self.y = 0
-        self.speed = random.random()
-        if self.speed < 0.5:
-            self.speed += 0.5
+        self.speed = speed
         self.up = True
         self.max_move = - floor_height / 3
 
@@ -199,6 +202,7 @@ all_sprite_list = pygame.sprite.Group()
 wall_list = pygame.sprite.Group()
 
 def load_level(level_num,all_sprite_list,player):
+    print("%d of %d levels" % (level_num, num_levels))
     # empty the list
     all_sprite_list.empty()
     # Make the walls. (x_pos, y_pos, width, height)
@@ -217,7 +221,7 @@ def load_level(level_num,all_sprite_list,player):
     obs_list = pygame.sprite.Group()
     for o in levels[level_num]['obs']:
         if o['type'] == 'police':
-            obs = MovingObstacle(o['x']*screen_width,floor_height + floor_height * o['floor'] - ground_th)
+            obs = MovingObstacle(o['x']*screen_width,floor_height + floor_height * o['floor'] - ground_th, o['speed'])
         else:
             obs = Obstacle(o['x']*screen_width,floor_height + floor_height * o['floor'] - ground_th,o['type'])
         obs_list.add(obs)
@@ -235,7 +239,7 @@ clock = pygame.time.Clock()
  
 done = False
 
-level_num = 0
+num_levels = len(levels)
 load_level(level_num,all_sprite_list,player)
 print("starting")
 while not done:
@@ -264,12 +268,19 @@ while not done:
     screen.fill(BLACK)
  
     all_sprite_list.draw(screen)
-    if player.floor == floors:
+    if player.finish:
         level_num += 1
-        load_level(level_num,all_sprite_list,player)
+        if level_num == num_levels:
+            done = True
+        else:
+            load_level(level_num,all_sprite_list,player)
 
     if player.crash:
-        done = True
+        player.lives -= 1
+        if player.lives == 0:
+            done = True
+        else:
+            player.start()
  
     pygame.display.flip()
  
