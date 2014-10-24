@@ -49,13 +49,13 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load("sprites/dennis.png").convert()
         # sounds
         # crash sounds is straight forward
-        self.crash_sound = pygame.mixer.Sound('sounds/bell.wav') 
+        self.crash_sound = pygame.mixer.Sound('sounds/crash.wav') 
         self.crash_sound.set_volume(0.4)
 
         # motor sound is made of a lot of samples we store in a list
         self.motor_sounds = []
         import glob
-        files = glob.glob('sounds/clip*wav')
+        files = glob.glob('sounds/motor*wav')
         files.sort()
         for sound in files:
             self.motor_sounds.append(pygame.mixer.Sound(sound)) 
