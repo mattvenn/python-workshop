@@ -27,6 +27,8 @@ floor_height = 150
 floors = 3
 screen_height = floor_height * floors
 gravity = 2.5
+max_speed = 10
+motor_sound_queue_length = 10
 jump_acc = gravity * 2.3
  
 # This class represents the bar at the bottom that the player controls
@@ -45,8 +47,22 @@ class Player(pygame.sprite.Sprite):
  
         # Set height, width
         self.image = pygame.image.load("sprites/dennis.png").convert()
-        self.crash_sound = pygame.mixer.Sound('bell.wav') 
+        # sounds
+        # crash sounds is straight forward
+        self.crash_sound = pygame.mixer.Sound('sounds/bell.wav') 
         self.crash_sound.set_volume(0.4)
+
+        # motor sound is made of a lot of samples we store in a list
+        self.motor_sounds = []
+        import glob
+        files = glob.glob('sounds/clip*wav')
+        files.sort()
+        for sound in files:
+            self.motor_sounds.append(pygame.mixer.Sound(sound)) 
+
+        #get a free channel
+        self.motor_ch = pygame.mixer.find_channel()
+        self.motor_ch.set_volume(0.3)
 
  
         # Set our transparent color
@@ -72,16 +88,28 @@ class Player(pygame.sprite.Sprite):
     def changespeed(self, x, y):
         """ Change the speed of the player. """
         self.change_x += x
+
+        if self.change_x > max_speed:
+            self.change_x = max_speed
+
         self.change_y += y
         if self.change_y < -jump_acc * gravity:
             self.change_y = -jump_acc * gravity
 
         if self.change_y > gravity:
             self.change_y = gravity
-        #print( self.change_y )
+
+        #work out motor sound speed
+        self.motor_sound_speed = int((len(self.motor_sounds)-1) * (self.change_x / max_speed ))
+
+        print(self.motor_sound_speed)
 
 
     def update(self):
+        #motor sounds
+        if self.motor_ch.get_queue() <= motor_sound_queue_length:
+            self.motor_ch.queue(self.motor_sounds[self.motor_sound_speed])
+
         """ Update the player position. """
         # Move left/right
         self.rect.x += self.change_x
