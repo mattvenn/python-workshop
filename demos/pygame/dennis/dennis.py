@@ -102,7 +102,7 @@ class Player(pygame.sprite.Sprite):
         #work out motor sound speed
         self.motor_sound_speed = int((len(self.motor_sounds)-1) * (self.change_x / max_speed ))
 
-        print(self.motor_sound_speed)
+        #print(self.motor_sound_speed)
 
 
     def update(self):
@@ -145,15 +145,20 @@ class Player(pygame.sprite.Sprite):
         
         block_hit_list = pygame.sprite.spritecollide(self, self.obs, False)
         for block in block_hit_list:
-            self.crash = True
-            self.crash_sound.play()
-            print("crash!")
+            if block.type == 'money':
+                block.kill() #TODO - not sure if this is right
+                print("ker-ching!") 
+            else:
+                self.crash = True
+                self.crash_sound.play()
+                print("crash!")
  
 class Obstacle(pygame.sprite.Sprite):
     """ Things the player can run into. """
     def __init__(self, x, y,type):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
+        self.type = type
  
         t = random.randint(0,2)
         sprite = type + '.png'
@@ -166,6 +171,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.bottom = y
         self.rect.x = x
+
 
 class MovingObstacle(pygame.sprite.Sprite):
     def __init__(self,x,y,speed):
@@ -236,6 +242,7 @@ pygame.display.set_caption('Dennis')
 all_sprite_list = pygame.sprite.Group()
 wall_list = pygame.sprite.Group()
 
+
 def load_level(level_num,all_sprite_list,player):
     print("%d of %d levels" % (level_num, num_levels))
     # empty the list
@@ -261,6 +268,7 @@ def load_level(level_num,all_sprite_list,player):
             obs = Obstacle(o['x']*screen_width,floor_height + floor_height * o['floor'] - ground_th,o['type'])
         obs_list.add(obs)
         all_sprite_list.add(obs)
+
 
     player.start()
     player.walls = wall_list

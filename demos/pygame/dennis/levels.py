@@ -2,6 +2,11 @@ levels = [
         {
             'obs' : [
             {
+                'type' : 'money',
+                'floor' : 0,
+                'x' : 0.5,
+            },
+            {
                 'type' : 'tree',
                 'floor' : 1,
                 'x' : 0.3,
@@ -24,6 +29,11 @@ levels = [
                 'type' : 'house',
                 'floor' : 1,
                 'x' : 0.3,
+            },
+            {
+                'type' : 'money',
+                'floor' : 0,
+                'x' : 0.7,
             },
             {
                 'type' : 'tree',
@@ -60,6 +70,11 @@ levels = [
                 'type' : 'house',
                 'floor' : 2,
                 'x' : 0.5,
+            },
+            {
+                'type' : 'money',
+                'floor' : 2,
+                'x' : 0.8,
             },
             ],
             'floors':
