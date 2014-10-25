@@ -3,6 +3,7 @@ Dare Devil Dennis?
 """
  
 import pygame
+import time
 import random
 import pygame.mixer
 from levels import levels
@@ -28,8 +29,14 @@ floors = 3
 screen_height = floor_height * floors
 gravity = 2.5
 max_speed = 10
-motor_sound_queue_length = 10
+motor_sound_queue_length = 5
 jump_acc = gravity * 2.3
+
+#points stuff
+money_points = 100
+level_points = 100
+speed_points = 200 # if you do the whole level in 5 seconds
+
  
 # This class represents the bar at the bottom that the player controls
 class Player(pygame.sprite.Sprite):
@@ -50,19 +57,22 @@ class Player(pygame.sprite.Sprite):
         # sounds
         # crash sounds is straight forward
         self.crash_sound = pygame.mixer.Sound('sounds/crash.wav') 
-        self.crash_sound.set_volume(0.4)
+        self.crash_sound.set_volume(0.3)
+        self.coin_sound = pygame.mixer.Sound('sounds/coin.wav') 
+        self.coin_sound.set_volume(0.3)
 
         # motor sound is made of a lot of samples we store in a list
         self.motor_sounds = []
-        import glob
-        files = glob.glob('sounds/motor*wav')
-        files.sort()
-        for sound in files:
-            self.motor_sounds.append(pygame.mixer.Sound(sound)) 
+        files = []
+        for i in range(1,7):
+            files.append('sounds/motor%d.wav' % i)
+        print files
+        for file in files:
+            self.motor_sounds.append(pygame.mixer.Sound(file)) 
 
         #get a free channel
         self.motor_ch = pygame.mixer.find_channel()
-        self.motor_ch.set_volume(0.3)
+        self.motor_ch.set_volume(0.2)
 
  
         # Set our transparent color
@@ -75,6 +85,7 @@ class Player(pygame.sprite.Sprite):
         self.on_ground = False
         self.crash = False
         self.lives = 3
+        self.points = 0
 
     def start(self):
         self.change_x = 0
@@ -107,7 +118,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         #motor sounds
-        if self.motor_ch.get_queue() <= motor_sound_queue_length:
+        while self.motor_ch.get_queue() <= motor_sound_queue_length:
             self.motor_ch.queue(self.motor_sounds[self.motor_sound_speed])
 
         """ Update the player position. """
@@ -146,8 +157,13 @@ class Player(pygame.sprite.Sprite):
         block_hit_list = pygame.sprite.spritecollide(self, self.obs, False)
         for block in block_hit_list:
             if block.type == 'money':
-                block.kill() #TODO - not sure if this is right
+                #remove sprite from all groups
+                block.kill()
                 print("ker-ching!") 
+                #play a sound
+                self.coin_sound.play()
+                #increase points
+                self.points += money_points
             else:
                 self.crash = True
                 self.crash_sound.play()
@@ -177,6 +193,7 @@ class MovingObstacle(pygame.sprite.Sprite):
     def __init__(self,x,y,speed):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
+        self.type = 'police'
  
         t = random.randint(0,0)
         if t == 0:
@@ -285,6 +302,7 @@ done = False
 num_levels = len(levels)
 load_level(level_num,all_sprite_list,player)
 print("starting")
+start_time = time.time()
 while not done:
  
     #allow click on window close button
@@ -313,6 +331,19 @@ while not done:
     all_sprite_list.draw(screen)
     if player.finish:
         level_num += 1
+        #increase score
+        player.points += level_points
+
+        #work out how long it took for time score
+        level_time = time.time() - start_time
+        print(level_time)
+        start_time = time.time()
+        speed_bonus = int(speed_points - level_time * 10)
+        if speed_bonus > 0:
+            print("speed bonus: %d" % speed_bonus)
+            player.points += speed_bonus
+
+        print("player points total: %d" % player.points)
         if level_num == num_levels:
             done = True
         else:
@@ -329,5 +360,6 @@ while not done:
  
     clock.tick(60)
  
+print("player points total: %d" % player.points)
 pygame.quit()
 
