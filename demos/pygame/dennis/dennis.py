@@ -268,24 +268,30 @@ screen = pygame.display.set_mode([screen_width, screen_height])
  
 # Set the title of the window
 pygame.display.set_caption('Dennis')
- 
+
+#music for start and end
+pygame.mixer.music.load("sounds/begin.wav")
+pygame.mixer.music.set_volume(0.5)
 
 all_sprite_list = pygame.sprite.Group()
 wall_list = pygame.sprite.Group()
 
 #show the score
 def show_score():
+
     #font from http://fontstruct.com/fontstructions/show/beeb
     font = pygame.font.Font('Beeb.ttf', 30)
     background = pygame.Surface((screen_width,score_height))
     background = background.convert()
     background.fill(BLUE)
-    text = font.render("Wages %06d   Lives %d" % (player.points, player.lives), 1, BLACK)
+    text = font.render("Wages %05d   Lives %d" % (player.points, player.lives), 1, BLACK)
     textpos = text.get_rect(centerx=screen_width/2,centery=score_height / 2)
     background.blit(text, textpos)
     screen.blit(background, (0,0))
 
 def show_title():
+    pygame.mixer.music.play(1)
+
     #font from http://fontstruct.com/fontstructions/show/beeb
     font = pygame.font.Font('Beeb.ttf', 30)
     background = pygame.Surface((screen_width,screen_height))
@@ -319,7 +325,36 @@ def show_title():
 
     screen.blit(background, (0,0))
     pygame.display.flip()
-    time.sleep(2)
+
+    while pygame.mixer.music.get_busy():
+        pass
+
+def show_end():
+    pygame.mixer.music.play(1)
+
+    #font from http://fontstruct.com/fontstructions/show/beeb
+    font = pygame.font.Font('Beeb.ttf', 30)
+    background = pygame.Surface((screen_width,screen_height))
+    background = background.convert()
+    background.fill(BLUE)
+
+    x = screen_width / 2
+    y = screen_height / 2
+
+    text = font.render("Game Over!" , 1, GREEN)
+    textpos = text.get_rect(centerx=x,centery=y)
+    background.blit(text, textpos)
+
+    y += 80
+
+    text = font.render("You wages were %05d" % player.points , 1, BLACK)
+    textpos = text.get_rect(centerx=x,centery=y)
+    background.blit(text, textpos)
+
+    screen.blit(background, (0,0))
+    pygame.display.flip()
+    while pygame.mixer.music.get_busy():
+        pass
 
 def load_level(level_num,all_sprite_list,player):
     print("%d of %d levels" % (level_num, num_levels))
@@ -431,6 +466,7 @@ while not done:
  
     clock.tick(60)
  
-print("player points total: %d" % player.points)
+show_end()
+
 pygame.quit()
 
