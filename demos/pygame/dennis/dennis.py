@@ -11,6 +11,7 @@ from levels import levels
 level_num = 0
 pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.mixer.init()
+
  
 """
 Global constants
@@ -146,7 +147,7 @@ class Player(pygame.sprite.Sprite):
         #what to do if gone off the screen
         if self.rect.x > screen_width:
             self.rect.x = 0
-            if self.rect.y > floor_height * 2:
+            if self.rect.y > score_height + floor_height * 2:
                 self.finish = True
             self.rect.y += floor_height
         # Move up/down
@@ -272,6 +273,17 @@ pygame.display.set_caption('Dennis')
 all_sprite_list = pygame.sprite.Group()
 wall_list = pygame.sprite.Group()
 
+#show the score
+def show_score():
+    #font from http://fontstruct.com/fontstructions/show/beeb
+    font = pygame.font.Font('Beeb.ttf', 30)
+    background = pygame.Surface((screen_width,score_height))
+    background = background.convert()
+    background.fill(BLUE)
+    text = font.render("Wages %06d   Lives %d" % (player.points, player.lives), 1, (10, 10, 10))
+    textpos = text.get_rect(centerx=screen_width/2,centery=score_height / 2)
+    background.blit(text, textpos)
+    screen.blit(background, (0,0))
 
 def load_level(level_num,all_sprite_list,player):
     print("%d of %d levels" % (level_num, num_levels))
@@ -374,14 +386,7 @@ while not done:
             done = True
         player.start()
 
-    font = pygame.font.Font('Beeb.ttf', 30)
-    background = pygame.Surface((screen_width,score_height))
-    background = background.convert()
-    background.fill(BLUE)
-    text = font.render("Wages %06d   Lives %d" % (player.points, player.lives), 1, (10, 10, 10))
-    textpos = text.get_rect(centerx=screen_width/2,centery=score_height / 2)
-    background.blit(text, textpos)
-    screen.blit(background, (0,0))
+    show_score()
 
     pygame.display.flip()
  

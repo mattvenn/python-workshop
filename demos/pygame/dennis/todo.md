@@ -1,5 +1,3 @@
 # todo
 
-* explosion on crash
-* sounds
-* score
+* title screen with instructions

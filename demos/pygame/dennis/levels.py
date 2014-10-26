@@ -84,4 +84,46 @@ levels = [
                 [(0,1)],
             ]
         },
+        {
+            'obs':
+            [
+            {
+                'type' : 'grave',
+                'floor' : 0,
+                'x' : 0.25,
+            },
+            {
+                'type' : 'house',
+                'floor' : 0,
+                'x' : 0.67,
+            },
+            {
+                'type' : 'police',
+                'floor' : 1,
+                'x' : 0.3,
+                'speed' : 0.4,
+            },
+            {
+                'type' : 'house',
+                'floor' : 2,
+                'x' : 0.5,
+            },
+            {
+                'type' : 'money',
+                'floor' : 1,
+                'x' : 0.8,
+            },
+            {
+                'type' : 'money',
+                'floor' : 2,
+                'x' : 0.3,
+            },
+            ],
+            'floors':
+            [
+                [(0,1)],
+                [(0,0.35),(0.55,1)],
+                [(0,1)],
+            ]
+        },
 ]
