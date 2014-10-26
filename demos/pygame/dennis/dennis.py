@@ -24,13 +24,14 @@ GREEN     = (  0, 255,   0)
  
 # Screen dimensions
 screen_width  = 800
-floor_height = 150
+score_height = 60
+floor_height = 160
 floors = 3
-screen_height = floor_height * floors
-gravity = 2.5
+screen_height = floor_height * floors + score_height
+gravity = 2.3
 max_speed = 10
 motor_sound_queue_length = 5
-jump_acc = gravity * 2.3
+jump_acc = gravity * 2.4
 
 #points stuff
 money_points = 100
@@ -53,13 +54,15 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
  
         # Set height, width
-        self.image = pygame.image.load("sprites/dennis.png").convert()
+        self.dennis_image = pygame.image.load("sprites/dennis.png").convert()
+        self.crash_image = pygame.image.load("sprites/crash.png").convert()
+        self.image = self.dennis_image
         # sounds
         # crash sounds is straight forward
         self.crash_sound = pygame.mixer.Sound('sounds/crash.wav') 
-        self.crash_sound.set_volume(0.3)
+        self.crash_sound.set_volume(0.7)
         self.coin_sound = pygame.mixer.Sound('sounds/coin.wav') 
-        self.coin_sound.set_volume(0.3)
+        self.coin_sound.set_volume(0.7)
 
         # motor sound is made of a lot of samples we store in a list
         self.motor_sounds = []
@@ -72,7 +75,7 @@ class Player(pygame.sprite.Sprite):
 
         #get a free channel
         self.motor_ch = pygame.mixer.find_channel()
-        self.motor_ch.set_volume(0.2)
+        self.motor_ch.set_volume(0.6)
 
  
         # Set our transparent color
@@ -90,11 +93,12 @@ class Player(pygame.sprite.Sprite):
     def start(self):
         self.change_x = 0
         self.change_y = 0
-        self.rect.y = 50
+        self.rect.y = score_height + floor_height / 2 
         self.rect.x = floor_height / 2
         self.on_ground = False
         self.crash = False
         self.finish = False
+        self.image = self.dennis_image
         
     def changespeed(self, x, y):
         """ Change the speed of the player. """
@@ -102,6 +106,8 @@ class Player(pygame.sprite.Sprite):
 
         if self.change_x > max_speed:
             self.change_x = max_speed
+        if self.change_x < 0:
+            self.change_x = 0
 
         self.change_y += y
         if self.change_y < -jump_acc * gravity:
@@ -117,6 +123,9 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self):
+        #don't do any updates if we've crashed
+        if self.crash:
+            return
         #motor sounds
         while self.motor_ch.get_queue() <= motor_sound_queue_length:
             self.motor_ch.queue(self.motor_sounds[self.motor_sound_speed])
@@ -166,7 +175,11 @@ class Player(pygame.sprite.Sprite):
                 self.points += money_points
             else:
                 self.crash = True
+                self.crash_time = time.time()
                 self.crash_sound.play()
+                self.image = self.crash_image
+                #how to make crash image in the right place?
+
                 print("crash!")
  
 class Obstacle(pygame.sprite.Sprite):
@@ -212,7 +225,7 @@ class MovingObstacle(pygame.sprite.Sprite):
         self.y = 0
         self.speed = speed
         self.up = True
-        self.max_move = - floor_height / 3
+        self.max_move = - floor_height / 2
 
     def update(self):
 
@@ -272,7 +285,7 @@ def load_level(level_num,all_sprite_list,player):
     ground_th = 10
     for floor in range(0,floors):
         for seg in levels[level_num]['floors'][floor]:
-            wall = Wall(seg[0] * screen_width, floor_height + floor_height * floor - ground_th, seg[1]*screen_width, ground_th)
+            wall = Wall(seg[0] * screen_width, score_height + floor_height + floor_height * floor - ground_th, seg[1]*screen_width, ground_th)
             wall_list.add(wall)
             all_sprite_list.add(wall)
 
@@ -280,9 +293,9 @@ def load_level(level_num,all_sprite_list,player):
     obs_list = pygame.sprite.Group()
     for o in levels[level_num]['obs']:
         if o['type'] == 'police':
-            obs = MovingObstacle(o['x']*screen_width,floor_height + floor_height * o['floor'] - ground_th, o['speed'])
+            obs = MovingObstacle(o['x']*screen_width,score_height + floor_height + floor_height * o['floor'] - ground_th, o['speed'])
         else:
-            obs = Obstacle(o['x']*screen_width,floor_height + floor_height * o['floor'] - ground_th,o['type'])
+            obs = Obstacle(o['x']*screen_width,score_height + floor_height + floor_height * o['floor'] - ground_th,o['type'])
         obs_list.add(obs)
         all_sprite_list.add(obs)
 
@@ -303,6 +316,7 @@ num_levels = len(levels)
 load_level(level_num,all_sprite_list,player)
 print("starting")
 start_time = time.time()
+crash_time = 0
 while not done:
  
     #allow click on window close button
@@ -311,11 +325,15 @@ while not done:
             done = True
     #keys
     kp = pygame.key.get_pressed()
-    if kp[pygame.K_q]:
+    if kp[pygame.K_LSHIFT]:
         #can only accelarate when we are on the ground
         if player.on_ground:
             player.changespeed(0.1, 0)
-    if kp[pygame.K_w]:
+    if kp[pygame.K_RETURN]:
+        #can only brake when we are on the ground
+        if player.on_ground:
+            player.changespeed(-0.2, 0)
+    if kp[pygame.K_q]:
         done = True
     if kp[pygame.K_SPACE]:
         #only jump if on ground
@@ -349,13 +367,22 @@ while not done:
         else:
             load_level(level_num,all_sprite_list,player)
 
-    if player.crash:
+
+    if player.crash and time.time() - player.crash_time > 2:
         player.lives -= 1
         if player.lives == 0:
             done = True
-        else:
-            player.start()
- 
+        player.start()
+
+    font = pygame.font.Font('Beeb.ttf', 30)
+    background = pygame.Surface((screen_width,score_height))
+    background = background.convert()
+    background.fill(BLUE)
+    text = font.render("Wages %06d   Lives %d" % (player.points, player.lives), 1, (10, 10, 10))
+    textpos = text.get_rect(centerx=screen_width/2,centery=score_height / 2)
+    background.blit(text, textpos)
+    screen.blit(background, (0,0))
+
     pygame.display.flip()
  
     clock.tick(60)
