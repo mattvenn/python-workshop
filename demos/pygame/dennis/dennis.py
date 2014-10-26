@@ -280,10 +280,46 @@ def show_score():
     background = pygame.Surface((screen_width,score_height))
     background = background.convert()
     background.fill(BLUE)
-    text = font.render("Wages %06d   Lives %d" % (player.points, player.lives), 1, (10, 10, 10))
+    text = font.render("Wages %06d   Lives %d" % (player.points, player.lives), 1, BLACK)
     textpos = text.get_rect(centerx=screen_width/2,centery=score_height / 2)
     background.blit(text, textpos)
     screen.blit(background, (0,0))
+
+def show_title():
+    #font from http://fontstruct.com/fontstructions/show/beeb
+    font = pygame.font.Font('Beeb.ttf', 30)
+    background = pygame.Surface((screen_width,screen_height))
+    background = background.convert()
+    background.fill(BLUE)
+
+    x = screen_width / 2
+    y = screen_height / 4
+
+    text = font.render("Dare Devil Denis!" , 1, GREEN)
+    textpos = text.get_rect(centerx=x,centery=y)
+    background.blit(text, textpos)
+
+    y += 80
+
+    text = font.render("Left Shift - Accelerate" , 1, BLACK)
+    textpos = text.get_rect(centerx=x,centery=y)
+    background.blit(text, textpos)
+
+    y += 40
+
+    text = font.render("Space - Jump" , 1, BLACK)
+    textpos = text.get_rect(centerx=x,centery=y)
+    background.blit(text, textpos)
+
+    y += 40
+
+    text = font.render("Enter - Brake" , 1, BLACK)
+    textpos = text.get_rect(centerx=x,centery=y)
+    background.blit(text, textpos)
+
+    screen.blit(background, (0,0))
+    pygame.display.flip()
+    time.sleep(2)
 
 def load_level(level_num,all_sprite_list,player):
     print("%d of %d levels" % (level_num, num_levels))
@@ -326,11 +362,14 @@ done = False
 
 num_levels = len(levels)
 load_level(level_num,all_sprite_list,player)
+
+show_title()
+
 print("starting")
 start_time = time.time()
 crash_time = 0
 while not done:
- 
+    
     #allow click on window close button
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
