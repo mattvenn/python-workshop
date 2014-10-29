@@ -1,3 +1,3 @@
 # todo
 
-* title screen with instructions
+* bit of cleanup and comments

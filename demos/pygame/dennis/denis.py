@@ -1,5 +1,5 @@
 """
-Dare Devil Dennis?
+Dare Devil Denis?
 """
  
 import pygame
@@ -8,10 +8,12 @@ import random
 import pygame.mixer
 from levels import levels
 
-level_num = 0
+#change this to start at a higher level
+level_num = 2
+
+#sound prep
 pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.mixer.init()
-
  
 """
 Global constants
@@ -19,7 +21,6 @@ Global constants
  
 # Colors
 BLACK    = (   0,   0,   0)
-WHITE    = ( 255, 255, 255)
 BLUE     = (   0,   0, 255)
 GREEN     = (  0, 255,   0)
  
@@ -29,25 +30,28 @@ score_height = 60
 floor_height = 160
 floors = 3
 screen_height = floor_height * floors + score_height
-gravity = 2.3
-max_speed = 10
-motor_sound_queue_length = 5
-jump_acc = gravity * 2.4
+
+#game dynamics
+gravity = 2.3 # can't fall faster than this
+fall_speed = 0.1 # our downward speed increases by this amount
+max_speed = 10 # max horizontal speed
+jump_acc = gravity * 2.4 # jump accelaration
 
 #points stuff
 money_points = 100
 level_points = 100
 speed_points = 200 # if you do the whole level in 5 seconds
 
+#queue length to make sure we don't run out of motor sounds
+motor_sound_queue_length = 5
  
-# This class represents the bar at the bottom that the player controls
-class Player(pygame.sprite.Sprite):
-    """ This class represents the bar at the bottom that the player controls. """
+# This class is for Denis
+class Denis(pygame.sprite.Sprite):
  
     # Set speed vector
     change_x = 0
     change_y = 0
-    walls = None
+    floors = None
  
     # Constructor function
     def __init__(self):
@@ -58,6 +62,7 @@ class Player(pygame.sprite.Sprite):
         self.dennis_image = pygame.image.load("sprites/dennis.png").convert()
         self.crash_image = pygame.image.load("sprites/crash.png").convert()
         self.image = self.dennis_image
+
         # sounds
         # crash sounds is straight forward
         self.crash_sound = pygame.mixer.Sound('sounds/crash.wav') 
@@ -66,6 +71,7 @@ class Player(pygame.sprite.Sprite):
         self.coin_sound.set_volume(0.7)
 
         # motor sound is made of a lot of samples we store in a list
+        # as speed changes we play different samples
         self.motor_sounds = []
         files = []
         for i in range(1,7):
@@ -74,26 +80,23 @@ class Player(pygame.sprite.Sprite):
         for file in files:
             self.motor_sounds.append(pygame.mixer.Sound(file)) 
 
+        print self.motor_sounds
         #get a free channel
         self.motor_ch = pygame.mixer.find_channel()
         self.motor_ch.set_volume(0.6)
-
  
         # Set our transparent color
         self.image.set_colorkey(BLACK)
-        #self.image = pygame.Surface([15, 15])
-        #self.image.fill(WHITE)
  
         # Make our top-left corner the passed-in location.
         self.rect = self.image.get_rect()
-        self.on_ground = False
-        self.crash = False
         self.lives = 3
         self.points = 0
 
+    #call this at the start of a new level or lose a life
     def start(self):
         self.change_x = 0
-        self.change_y = 0
+        self.change_y = 0.1
         self.rect.y = score_height + floor_height / 2 
         self.rect.x = floor_height / 2
         self.on_ground = False
@@ -101,69 +104,67 @@ class Player(pygame.sprite.Sprite):
         self.finish = False
         self.image = self.dennis_image
         
+    #Change the speed of the denis.
     def changespeed(self, x, y):
-        """ Change the speed of the player. """
         self.change_x += x
 
+        #can't go faster than max, or slower than 0
         if self.change_x > max_speed:
             self.change_x = max_speed
         if self.change_x < 0:
             self.change_x = 0
 
         self.change_y += y
+
+        #can't go up faster than our jump acc
         if self.change_y < -jump_acc * gravity:
             self.change_y = -jump_acc * gravity
 
+        #can't go down faster than gravity
         if self.change_y > gravity:
             self.change_y = gravity
 
-        #work out motor sound speed
-        self.motor_sound_speed = int((len(self.motor_sounds)-1) * (self.change_x / max_speed ))
 
-        #print(self.motor_sound_speed)
-
-
+    #update the denis position, check for crashes etc
     def update(self):
         #don't do any updates if we've crashed
         if self.crash:
             return
+
         #motor sounds
+        #work out motor sound speed
+        self.motor_sound_speed = int((len(self.motor_sounds)-1) * (self.change_x / max_speed ))
+        #then queue up a bunch of sounds so that the sound plays continuously
         while self.motor_ch.get_queue() <= motor_sound_queue_length:
             self.motor_ch.queue(self.motor_sounds[self.motor_sound_speed])
 
-        """ Update the player position. """
+        # Update the denis position.
         # Move left/right
         self.rect.x += self.change_x
  
-        # Did this update cause us to hit a wall?
-        block_hit_list = pygame.sprite.spritecollide(self, self.walls, False)
+        # Did this update cause us to hit floor - like hitting the side of a hole
+        block_hit_list = pygame.sprite.spritecollide(self, self.floors, False)
         for block in block_hit_list:
-            # If we are moving right, set our right side to the left side of the item we hit
-            if self.change_x > 0:
-                self.rect.right = block.rect.left
-            else:
-                # Otherwise if we are moving left, do the opposite.
-                self.rect.left = block.rect.right
+            self.rect.right = block.rect.left
+
         #what to do if gone off the screen
         if self.rect.x > screen_width:
             self.rect.x = 0
             if self.rect.y > score_height + floor_height * 2:
                 self.finish = True
             self.rect.y += floor_height
-        # Move up/down
+
+        # jump or fall
         self.rect.y += self.change_y
  
-        # Check and see if we hit anything
-        block_hit_list = pygame.sprite.spritecollide(self, self.walls, False)
+        # Check and see if we landed on the floor?
+        block_hit_list = pygame.sprite.spritecollide(self, self.floors, False)
         self.on_ground = False
         for block in block_hit_list:
             self.on_ground = True 
-            # Reset our position based on the top/bottom of the object.
-            if self.change_y > 0:
-                self.rect.bottom = block.rect.top
-            else:
-                self.rect.top = block.rect.bottom
+            self.rect.bottom = block.rect.top
         
+        #collide with obstacles?
         block_hit_list = pygame.sprite.spritecollide(self, self.obs, False)
         for block in block_hit_list:
             if block.type == 'money':
@@ -175,22 +176,19 @@ class Player(pygame.sprite.Sprite):
                 #increase points
                 self.points += money_points
             else:
+                print("crash!")
                 self.crash = True
                 self.crash_time = time.time()
                 self.crash_sound.play()
                 self.image = self.crash_image
-                #how to make crash image in the right place?
-
-                print("crash!")
  
+#stuff like trees, houses, graves
 class Obstacle(pygame.sprite.Sprite):
-    """ Things the player can run into. """
     def __init__(self, x, y,type):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
         self.type = type
  
-        t = random.randint(0,2)
         sprite = type + '.png'
         self.image = pygame.image.load("sprites/" + sprite).convert()
  
@@ -202,16 +200,14 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect.bottom = y
         self.rect.x = x
 
-
+#a policeman
 class MovingObstacle(pygame.sprite.Sprite):
     def __init__(self,x,y,speed):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
         self.type = 'police'
  
-        t = random.randint(0,0)
-        if t == 0:
-            sprite = 'police.png'
+        sprite = 'police.png'
         self.image = pygame.image.load("sprites/" + sprite).convert()
  
         # Set our transparent color
@@ -222,6 +218,7 @@ class MovingObstacle(pygame.sprite.Sprite):
         self.rect.bottom = y
         self.start_y = y
         self.rect.x = x
+
         #rects have to be defined as ints, so make a separate y that can be higher res
         self.y = 0
         self.speed = speed
@@ -229,28 +226,30 @@ class MovingObstacle(pygame.sprite.Sprite):
         self.max_move = - floor_height / 2
 
     def update(self):
-
+        #alternatively move up and down
         if self.y <= self.max_move:
             self.up = False
         elif self.y >= 0:
             self.up = True
+
         #update the high res y
         if self.up:
             self.y -= self.speed
         else:
             self.y += self.speed
-        #then copy to rect
+
+        #then update the sprite's position with the int(y)
         self.rect.bottom = self.start_y + int(self.y)
         
 
-class Wall(pygame.sprite.Sprite):
-    """ Wall the player can run into. """
+#the floors
+class Floor(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
-        """ Constructor for the ground """
+
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
  
-        # Make a blue wall, of the size specified in the parameters
+        # Make a green floor, of the size specified in the parameters
         self.image = pygame.Surface([width, height])
         self.image.fill(GREEN)
  
@@ -267,28 +266,28 @@ pygame.init()
 screen = pygame.display.set_mode([screen_width, screen_height])
  
 # Set the title of the window
-pygame.display.set_caption('Dennis')
+pygame.display.set_caption('Denis')
 
 #music for start and end
 pygame.mixer.music.load("sounds/begin.wav")
 pygame.mixer.music.set_volume(0.5)
 
 all_sprite_list = pygame.sprite.Group()
-wall_list = pygame.sprite.Group()
+floor_list = pygame.sprite.Group()
 
-#show the score
+#show the score at the top of the screen
 def show_score():
-
     #font from http://fontstruct.com/fontstructions/show/beeb
     font = pygame.font.Font('Beeb.ttf', 30)
     background = pygame.Surface((screen_width,score_height))
     background = background.convert()
     background.fill(BLUE)
-    text = font.render("Wages %05d   Lives %d" % (player.points, player.lives), 1, BLACK)
+    text = font.render("Wages %05d   Lives %d" % (denis.points, denis.lives), 1, BLACK)
     textpos = text.get_rect(centerx=screen_width/2,centery=score_height / 2)
     background.blit(text, textpos)
     screen.blit(background, (0,0))
 
+#title for beginning
 def show_title():
     pygame.mixer.music.play(1)
 
@@ -326,9 +325,11 @@ def show_title():
     screen.blit(background, (0,0))
     pygame.display.flip()
 
+    #wait till music finishes
     while pygame.mixer.music.get_busy():
         pass
 
+#end screen showing score
 def show_end():
     pygame.mixer.music.play(1)
 
@@ -347,30 +348,34 @@ def show_end():
 
     y += 80
 
-    text = font.render("You wages were %05d" % player.points , 1, BLACK)
+    text = font.render("You wages were %05d" % denis.points , 1, BLACK)
     textpos = text.get_rect(centerx=x,centery=y)
     background.blit(text, textpos)
 
     screen.blit(background, (0,0))
     pygame.display.flip()
+
+    #wait till music finishes
     while pygame.mixer.music.get_busy():
         pass
 
-def load_level(level_num,all_sprite_list,player):
+#function to load a level defined in the levels.py file 
+#check the levels.py file for how to create new levels.
+def load_level(level_num,all_sprite_list,denis):
     print("%d of %d levels" % (level_num, num_levels))
     # empty the list
     all_sprite_list.empty()
-    # Make the walls. (x_pos, y_pos, width, height)
-    wall_list = pygame.sprite.Group()
+    # Make the floors. (x_pos, y_pos, width, height)
+    floor_list = pygame.sprite.Group()
 
     #create the level!
     #start with floors. Get the gaps:
     ground_th = 10
     for floor in range(0,floors):
         for seg in levels[level_num]['floors'][floor]:
-            wall = Wall(seg[0] * screen_width, score_height + floor_height + floor_height * floor - ground_th, seg[1]*screen_width, ground_th)
-            wall_list.add(wall)
-            all_sprite_list.add(wall)
+            floor_obj = Floor(seg[0] * screen_width, score_height + floor_height + floor_height * floor - ground_th, seg[1]*screen_width, ground_th)
+            floor_list.add(floor_obj)
+            all_sprite_list.add(floor_obj)
 
     # create obstacles
     obs_list = pygame.sprite.Group()
@@ -382,29 +387,33 @@ def load_level(level_num,all_sprite_list,player):
         obs_list.add(obs)
         all_sprite_list.add(obs)
 
-
-    player.start()
-    player.walls = wall_list
-    player.obs = obs_list
-    all_sprite_list.add(player)
+    #get the player ready
+    denis.start()
+    #update the player's floor and obstacle list
+    denis.floors = floor_list
+    denis.obs = obs_list
+    all_sprite_list.add(denis)
  
-# Create the player paddle object
-player = Player()
+# Create denis 
+denis = Denis()
 
 clock = pygame.time.Clock()
  
+#flag for finishing the game
 done = False
 
 num_levels = len(levels)
-load_level(level_num,all_sprite_list,player)
+load_level(level_num,all_sprite_list,denis)
 
-show_title()
+#start with the title
+#show_title()
 
 print("starting")
 start_time = time.time()
 crash_time = 0
+
+#main loop
 while not done:
-    
     #allow click on window close button
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -413,30 +422,42 @@ while not done:
     kp = pygame.key.get_pressed()
     if kp[pygame.K_LSHIFT]:
         #can only accelarate when we are on the ground
-        if player.on_ground:
-            player.changespeed(0.1, 0)
+        if denis.on_ground:
+            denis.changespeed(0.1, 0)
     if kp[pygame.K_RETURN]:
         #can only brake when we are on the ground
-        if player.on_ground:
-            player.changespeed(-0.2, 0)
+        if denis.on_ground:
+            denis.changespeed(-0.2, 0)
     if kp[pygame.K_q]:
         done = True
     if kp[pygame.K_SPACE]:
         #only jump if on ground
-        if player.on_ground:
-            player.changespeed(0, -jump_acc)
+        if denis.on_ground:
+            denis.changespeed(0, -jump_acc)
 
-    player.changespeed(0, 0.1)
+    #always fall down
+    denis.changespeed(0, fall_speed)
 
+    #update all sprites
     all_sprite_list.update()
  
+    #blank the screen
     screen.fill(BLACK)
  
+    #draw new screen
     all_sprite_list.draw(screen)
-    if player.finish:
+
+    #draw score
+    show_score()
+
+    #flip display (double buffering)
+    pygame.display.flip()
+ 
+    #check if we've finished the level
+    if denis.finish:
         level_num += 1
         #increase score
-        player.points += level_points
+        denis.points += level_points
 
         #work out how long it took for time score
         level_time = time.time() - start_time
@@ -445,28 +466,25 @@ while not done:
         speed_bonus = int(speed_points - level_time * 10)
         if speed_bonus > 0:
             print("speed bonus: %d" % speed_bonus)
-            player.points += speed_bonus
+            denis.points += speed_bonus
 
-        print("player points total: %d" % player.points)
+        print("denis points total: %d" % denis.points)
         if level_num == num_levels:
             done = True
         else:
-            load_level(level_num,all_sprite_list,player)
+            load_level(level_num,all_sprite_list,denis)
 
 
-    if player.crash and time.time() - player.crash_time > 2:
-        player.lives -= 1
-        if player.lives == 0:
+    if denis.crash and time.time() - denis.crash_time > 2:
+        denis.lives -= 1
+        if denis.lives == 0:
             done = True
-        player.start()
+        denis.start()
 
-    show_score()
-
-    pygame.display.flip()
- 
     clock.tick(60)
  
+#show ending scren
 show_end()
 
+#finish!
 pygame.quit()
-

@@ -1,3 +1,17 @@
+"""
+Level definition - a list of the levels
+
+Each level is a hash with 2 keys: obs for obstacles and floors for the floors
+
+obs are a hash with 3 or 4 keys:
+    * type (money, tree, grave, house, police)
+    * floor (number 0 to 2)
+    * x as a float between 0 and 1 to define where the obstacle is horizontally
+    * if the obstacle is a police, then it needs a speed to set how fast the policeman moves
+
+floors are a list of 3 lists, one for each floor. 
+Each floor is a list of tuples that have a start and end position (defined as a fraction of 1) so that platforms (or holes) can be created)
+"""
 levels = [
         {
             'obs' : [
