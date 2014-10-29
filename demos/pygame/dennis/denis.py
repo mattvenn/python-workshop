@@ -59,9 +59,9 @@ class Denis(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
  
         # Set height, width
-        self.dennis_image = pygame.image.load("sprites/dennis.png").convert()
+        self.denis_image = pygame.image.load("sprites/denis.png").convert()
         self.crash_image = pygame.image.load("sprites/crash.png").convert()
-        self.image = self.dennis_image
+        self.image = self.denis_image
 
         # sounds
         # crash sounds is straight forward
@@ -76,11 +76,9 @@ class Denis(pygame.sprite.Sprite):
         files = []
         for i in range(1,7):
             files.append('sounds/motor%d.wav' % i)
-        print files
         for file in files:
             self.motor_sounds.append(pygame.mixer.Sound(file)) 
 
-        print self.motor_sounds
         #get a free channel
         self.motor_ch = pygame.mixer.find_channel()
         self.motor_ch.set_volume(0.6)
@@ -102,7 +100,7 @@ class Denis(pygame.sprite.Sprite):
         self.on_ground = False
         self.crash = False
         self.finish = False
-        self.image = self.dennis_image
+        self.image = self.denis_image
         
     #Change the speed of the denis.
     def changespeed(self, x, y):
@@ -406,7 +404,7 @@ num_levels = len(levels)
 load_level(level_num,all_sprite_list,denis)
 
 #start with the title
-#show_title()
+show_title()
 
 print("starting")
 start_time = time.time()
@@ -461,7 +459,6 @@ while not done:
 
         #work out how long it took for time score
         level_time = time.time() - start_time
-        print(level_time)
         start_time = time.time()
         speed_bonus = int(speed_points - level_time * 10)
         if speed_bonus > 0:
