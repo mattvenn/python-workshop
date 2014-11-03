@@ -3,7 +3,6 @@ Snake
 """
  
 import pygame
-import time
 import random
 
 #sound prep
@@ -32,7 +31,7 @@ start_speed = 10
 
 #points stuff
 chomp_points = 1 # this also gets added to the speed of the game
-food_timer = 3 # how long food last before disappearing
+food_timer = 3000 # how long food last before disappearing (ms)
 
 # The snake object
 class Player(pygame.sprite.Sprite):
@@ -152,13 +151,13 @@ class Food(pygame.sprite.Sprite):
         self.rect.y = random.randint(0,tiles-1) * tile_size + score_height
         self.rect.x = random.randint(0,tiles-1) * tile_size
 
-        self.time = time.time()
+        self.time = pygame.time.get_ticks()
 
     def get_xy(self):
         return (self.rect.x,self.rect.y)
 
     def update(self):
-        if time.time() - self.time > food_timer:
+        if pygame.time.get_ticks() - self.time > food_timer:
             #disappear
             self.kill()
  
@@ -199,7 +198,6 @@ clock = pygame.time.Clock()
 done = False
 
 print("starting")
-start_time = time.time()
 
 food_sound = pygame.mixer.Sound('appear.wav') 
 food_sound.set_volume(0.7)
@@ -256,12 +254,13 @@ while not done:
     if player.done:
         #let player see the crash
         end_sound.play()
-        time.sleep(2)
+        pygame.time.wait(2000)
         done = True
 
     pygame.display.flip()
  
     #slow update, but increases with points
+    #argument to tick is the framerate
     clock.tick(5 + player.points)
 
 print("you got %d points" % player.points)
