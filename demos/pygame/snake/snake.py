@@ -20,7 +20,7 @@ YELLOW   = (255, 255, 0  )
 RED      = (255, 0,   0  )
  
 # Screen dimensions
-tile_size = 40
+tile_size = 32
 tiles = 20
 screen_width  = tile_size * tiles
 score_height = tile_size
@@ -40,8 +40,8 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
  
         # Set height, width
-        self.image = pygame.Surface([tile_size, tile_size])
-        self.image.fill(WHITE)
+        self.image = pygame.image.load("head.png").convert_alpha()
+        print self.image.get_flags()
 
         self.rect = self.image.get_rect()
         self.rect.y = (tiles / 2) * tile_size
@@ -112,9 +112,8 @@ class Body(pygame.sprite.Sprite):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
  
-        # Set height, width
-        self.image = pygame.Surface([tile_size, tile_size])
-        self.image.fill(GREEN)
+        #load sprite
+        self.image = pygame.image.load("tail.png").convert_alpha()
 
         self.rect = self.image.get_rect()
         (self.rect.x,self.rect.y) = (x,y)
@@ -133,9 +132,9 @@ class Food(pygame.sprite.Sprite):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
 
-        # Set height, width
-        self.image = pygame.Surface([tile_size, tile_size])
-        self.image.fill(RED)
+        #load sprite
+        self.image = pygame.image.load("fruit.png").convert_alpha()
+        print self.image.get_flags()
  
         # Make our bottom-left corner the passed-in location.
         self.rect = self.image.get_rect()
@@ -228,7 +227,7 @@ while not done:
     #update all sprites
     all_sprite_list.update()
  
-    screen.fill(BLACK)
+    screen.fill(BLUE)
  
     all_sprite_list.draw(screen)
 
