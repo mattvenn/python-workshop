@@ -178,8 +178,7 @@ food_list = pygame.sprite.Group()
 #show the score
 def show_score():
 
-    #font from http://fontstruct.com/fontstructions/show/beeb
-    font = pygame.font.Font('Beeb.ttf', tile_size - 5)
+    font = pygame.font.SysFont('Arial', tile_size - 5)
     background = pygame.Surface((screen_width,score_height))
     background = background.convert()
     background.fill(BLUE)
