@@ -6,6 +6,9 @@ import pygame
 import time
 import random
 
+#sound prep
+pygame.mixer.pre_init(44100, 16, 2, 4096)
+pygame.mixer.init()
  
 """
 Global constants
@@ -20,7 +23,7 @@ YELLOW   = (255, 255, 0  )
 RED      = (255, 0,   0  )
  
 # Screen dimensions
-tile_size = 32
+tile_size = 32 #size of the sprites
 tiles = 20
 screen_width  = tile_size * tiles
 score_height = tile_size
@@ -39,9 +42,11 @@ class Player(pygame.sprite.Sprite):
         # Call the parent's constructor
         pygame.sprite.Sprite.__init__(self)
  
+        self.eat_sound = pygame.mixer.Sound('eat.wav') 
+        self.eat_sound.set_volume(0.7)
+
         # Set height, width
         self.image = pygame.image.load("head.png").convert_alpha()
-        print self.image.get_flags()
 
         self.rect = self.image.get_rect()
         self.rect.y = (tiles / 2) * tile_size
@@ -101,6 +106,7 @@ class Player(pygame.sprite.Sprite):
         for food in food_hit_list:
             food.kill()
             self.add_body(1)
+            self.eat_sound.play()
             self.points += chomp_points
 
  
@@ -134,7 +140,6 @@ class Food(pygame.sprite.Sprite):
 
         #load sprite
         self.image = pygame.image.load("fruit.png").convert_alpha()
-        print self.image.get_flags()
  
         # Make our bottom-left corner the passed-in location.
         self.rect = self.image.get_rect()
@@ -190,6 +195,12 @@ done = False
 print("starting")
 start_time = time.time()
 
+food_sound = pygame.mixer.Sound('appear.wav') 
+food_sound.set_volume(0.7)
+
+end_sound = pygame.mixer.Sound('game-over.wav') 
+end_sound.set_volume(0.7)
+
 while not done:
     #we could get multiple events here. So that's why we break if a key is pressed.
     #it stops the player from being able to change directions multiple times in one update
@@ -221,13 +232,14 @@ while not done:
                 crash = True
         #otherwise add it to the lists
         if not crash:
+            food_sound.play()
             all_sprite_list.add(food)
             food_list.add(food)
 
     #update all sprites
     all_sprite_list.update()
  
-    screen.fill(BLUE)
+    screen.fill(WHITE)
  
     all_sprite_list.draw(screen)
 
@@ -237,6 +249,7 @@ while not done:
     #crashed?
     if player.done:
         #let player see the crash
+        end_sound.play()
         time.sleep(2)
         done = True
 
