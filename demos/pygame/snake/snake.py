@@ -146,10 +146,11 @@ class Food(pygame.sprite.Sprite):
         #load sprite
         self.image = pygame.image.load("fruit.png").convert_alpha()
  
-        # Make our bottom-left corner the passed-in location.
+        # put it somewhere random
         self.rect = self.image.get_rect()
-        self.rect.y = random.randint(0,tiles) * tile_size
-        self.rect.x = random.randint(0,tiles) * tile_size
+        #but avoid the top score header
+        self.rect.y = random.randint(0,tiles-1) * tile_size + score_height
+        self.rect.x = random.randint(0,tiles-1) * tile_size
 
         self.time = time.time()
 
