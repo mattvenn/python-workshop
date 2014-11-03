@@ -46,7 +46,8 @@ class Player(pygame.sprite.Sprite):
         self.eat_sound.set_volume(0.7)
 
         # Set height, width
-        self.image = pygame.image.load("head.png").convert_alpha()
+        self.imageMaster = pygame.image.load("head.png").convert_alpha()
+        self.image = self.imageMaster
 
         self.rect = self.image.get_rect()
         self.rect.y = (tiles / 2) * tile_size
@@ -71,12 +72,16 @@ class Player(pygame.sprite.Sprite):
         """ Update the player position. """
         # Move left/right
         if self.direction == 'left':
+            self.image = pygame.transform.rotate(self.imageMaster, 90)
             self.rect.x -= tile_size
         elif self.direction == 'right':
+            self.image = pygame.transform.rotate(self.imageMaster, -90)
             self.rect.x += tile_size
         elif self.direction == 'up':
+            self.image = pygame.transform.rotate(self.imageMaster, 0)
             self.rect.y -= tile_size
         elif self.direction == 'down':
+            self.image = pygame.transform.rotate(self.imageMaster, 180)
             self.rect.y += tile_size
 
         #update the body, pass down the new co-ordinates to all body sections
