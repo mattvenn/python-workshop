@@ -3,6 +3,8 @@
 This is a port of the classic snake game found on Nokia phones. I'm pretty sure
 everyone's seen it or played it!
 
+![screenshot](screenshot.png)
+
 # Game setup
 
 The game starts by defining some constants that choose the size of the sprites
