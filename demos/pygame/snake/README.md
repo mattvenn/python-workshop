@@ -72,3 +72,7 @@ We also:
 * Show the score
 * Check to see if the snake has crashed, and if so, end the game.
 
+# Sprites and sounds
+
+* Sprites were found by searching for 'snake sprite' on google images
+* Sounds came from [freesoundlib](https://www.freesound.org/)
