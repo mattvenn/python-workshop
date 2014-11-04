@@ -12,7 +12,8 @@ and the size of the board.
 
 We define some colours so we can use then easily later.
 
-Then we define our objects.
+Then we define our objects. For more information on what Object Orientated
+Programming (OOP) is, see the [README.md in the pygame directory.](../README.md) 
 
 # Objects Overview
 
