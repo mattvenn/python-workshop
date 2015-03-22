@@ -78,5 +78,5 @@ We could instead:
 
 the requests module:
 
-* Linux/Mac: on the command line: sudo pip install requests
+* Linux/Raspberry Pi/Mac: on the command line: sudo pip install requests
 * Windows: install requests from http://www.lfd.uci.edu/~gohlke/pythonlibs/
