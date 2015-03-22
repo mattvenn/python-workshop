@@ -64,10 +64,11 @@ Which we can then easily grab the bits we're interested in.
 The program uses the excellent requests library which you'll have to 
 [install first](#requirements).
 
-Have a [look at the program](weather.py), it's well commented takes you through
-what's happening. After fetching the data, the date, wind speed, temperature and
-cloud cover are stored in a CSV file so I can turn it into a graph later. We
-could instead:
+Have a [look at the program](weather.py).
+
+After fetching the data, the date, wind speed, temperature and
+cloud cover are stored in a CSV file so I can turn it into a graph later. 
+We could instead:
 
 * turn an LED different colours depending on temperature,
 * send a text at sunrise,
