@@ -26,11 +26,12 @@ The fan blows proportionally to the current wind speed.
 I found a great site called [openweathermap.org](http://openweathermap.org)
 The [API documentation is here](http://openweathermap.org/api)
 
-You can read the docs if you want, but when we fetch this URL:
+You can read the docs if you want, but when we fetch this URL
 
-    [http://api.openweathermap.org/data/2.5/weather?q=Bristol,uk&units=metric](http://api.openweathermap.org/data/2.5/weather?q=Bristol,uk&units=metric)
+    http://api.openweathermap.org/data/2.5/weather?q=Bristol,uk&units=metric
 
-We get [JSON](http://en.wikipedia.org/wiki/JSON) data like this (I've formatted this nicely):
+We get [JSON](http://en.wikipedia.org/wiki/JSON) data like this (I've formatted
+it nicely)
 
     {u'base': u'cmc stations',
      u'clouds': {u'all': 0},
@@ -56,14 +57,17 @@ We get [JSON](http://en.wikipedia.org/wiki/JSON) data like this (I've formatted 
                    u'main': u'Clear'}],
      u'wind': {u'deg': 260, u'speed': 1.5}}
 
+Which we can then easily grab the bits we're interested in.
+
 # The program
 
 The program uses the excellent requests library which you'll have to 
-[install first](#requirements)
+[install first](#requirements).
 
 Have a [look at the program](weather.py), it's well commented takes you through
-what's happening. After fetching the data, it's also stored in a CSV file so I
-can turn it into a graph later. We could instead:
+what's happening. After fetching the data, the date, wind speed, temperature and
+cloud cover are stored in a CSV file so I can turn it into a graph later. We
+could instead:
 
 * turn an LED different colours depending on temperature,
 * send a text at sunrise,
