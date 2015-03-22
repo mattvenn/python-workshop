@@ -26,7 +26,7 @@ program goes on working.
 ## The open weather map API
 
 I found a great site called [openweathermap.org](http://openweathermap.org)
-The [API documentation is here](http://openweathermap.org/api)
+The [API documentation is here](http://openweathermap.org/api).
 
 You can read the docs if you want, but when we fetch this URL
 
@@ -59,7 +59,10 @@ it nicely)
                    u'main': u'Clear'}],
      u'wind': {u'deg': 260, u'speed': 1.5}}
 
-Which we can then easily grab the bits we're interested in.
+Which we can then easily grab the bits we're interested in like this to get wind
+speed
+
+    wind = data["wind"]["speed"]
 
 # The program
 
