@@ -1,7 +1,7 @@
 # Reading weather data with an API and requests
 
 A great way to demonstrate the power of python combined with the internet is to
-show how we can automate fetching data. In the past I've used this to 
+show how we can automate fetching data. In the past I've used this to:
 
 * notify me when stock arrives in an online shop,
 * fetch solar wind speed from a space agency website,
@@ -10,7 +10,7 @@ show how we can automate fetching data. In the past I've used this to
 This example uses a very simple API to get weather data for any city in the
 world.
 
-## What is an API
+## What's an API?
 
 API stands for [application programming
 interface](http://en.wikipedia.org/wiki/Application_programming_interface). It
@@ -18,8 +18,10 @@ makes it easy for a program to communicate with another program.
 
 When we want to find the weather using a computer, we go to a website, read the
 info and we're done. But what if we want to keep a note of it, or make it do
-something fun. Imagine running the code on a raspberry pi, hooked up with a fan.
-The fan blows proportionally to the current wind speed.
+something fun like change an LED's colour? We have to write a program that
+fetches the page, finds the bit we want and then copy it out. An API makes this
+a lot easier. Another bonus is that it means that if the website changes, our
+program goes on working.
 
 ## The open weather map API
 
