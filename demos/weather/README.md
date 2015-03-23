@@ -64,7 +64,7 @@ speed
 
     wind = data["wind"]["speed"]
 
-# The program
+## The program
 
 The program uses the excellent requests library which you'll have to 
 [install first](#requirements).
@@ -79,7 +79,7 @@ We could instead:
 * send a text at sunrise,
 * spin a fan to represent wind speed... 
 
-# Requirements 
+## Requirements 
 
 the requests module:
 
