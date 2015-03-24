@@ -20,9 +20,7 @@ pprint(data)
 # grab the bits we want in separate variables
 wind = data["wind"]["speed"]
 temp = data["main"]["temp"]
-# we subtract 800 to get a number from 0 to 5 see link below about
-# conditions : http://openweathermap.org/weather-conditions
-clouds = data["weather"][0]["id"]-800
+clouds = data["clouds"]["all"]
 # get the date and time
 date = datetime.datetime.now()
 
