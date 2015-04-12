@@ -81,7 +81,6 @@ We could instead:
 
 ## Requirements 
 
-the requests module:
+The requests module.
 
-* Linux/Raspberry Pi/Mac: on the command line: sudo pip install requests
-* Windows: install requests from http://www.lfd.uci.edu/~gohlke/pythonlibs/
+For installation instructions see the [Library Readme](../README.md)

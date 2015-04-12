@@ -22,7 +22,5 @@ The process demo loads the previously created image, rotates it and then scales 
 
 # Requirements 
 
-the PIL module:
-
-* Linux/Mac: - sudo pip install PIL
-* Windows: install pillow (PIL for windows) from http://www.lfd.uci.edu/~gohlke/pythonlibs/ - the specific one is Pillow-2.1.0.win32-py2.7.exe
+the pillow module.
+For installation instructions see the [Library Readme](../README.md)
