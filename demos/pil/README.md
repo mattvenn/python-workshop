@@ -23,4 +23,5 @@ The process demo loads the previously created image, rotates it and then scales 
 # Requirements 
 
 the pillow module.
+
 For installation instructions see the [Library Readme](../README.md)

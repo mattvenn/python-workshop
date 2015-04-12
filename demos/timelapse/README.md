@@ -6,4 +6,4 @@ We're using opencv again to access the video camera. This can also be done with 
 
 # Requirements
 
-opencv (see the other opencv demos for install instructions)
+opencv ([see the other opencv demos for install instructions](../opencv/README.md))

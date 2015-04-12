@@ -9,7 +9,7 @@ import pygame.mixer
 from levels import levels
 
 #change this to start at a higher level
-level_num = 2
+level_num = 0
 
 #sound prep
 pygame.mixer.pre_init(44100, 16, 2, 4096)

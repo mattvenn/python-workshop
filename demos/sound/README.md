@@ -12,8 +12,9 @@ Specific documentation for playing sounds is here:
 
 ## Windows
 
-Install a precompiled binary from http://www.lfd.uci.edu/~gohlke/pythonlibs/#pygame
-Make sure you get the right link! pygame-1.9.2pre.win32-py2.7.exe
+The pygame module.
+
+For installation instructions see the [Library Readme](../README.md)
 
 ## Mac
 

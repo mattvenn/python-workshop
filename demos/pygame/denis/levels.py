@@ -104,7 +104,7 @@ levels = [
             {
                 'type' : 'grave',
                 'floor' : 0,
-                'x' : 0.25,
+                'x' : 0.28,
             },
             {
                 'type' : 'house',

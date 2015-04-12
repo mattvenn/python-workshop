@@ -32,3 +32,19 @@ For some pointers on OOP, check out these resources:
 * [Pygame basics](http://www.nerdparadise.com/tech/python/pygame/basics/)
 * [Some useful blog posts about Pygame](https://lorenzod8n.wordpress.com/category/pygame-tutorial/)
 
+# Requirements
+
+## Windows
+
+The pygame module.
+
+For installation instructions see the [Library Readme](../README.md)
+
+## Mac
+
+Read the section on installling on the website: http://www.pygame.org/install.html
+
+## Linux
+
+sudo apt-get install python-pygame
+

@@ -5,3 +5,7 @@ Tk is the only cross-platform (Windows, Mac, Unix) graphical user interface tool
 # Resources
 
 http://www.tkdocs.com/index.html
+
+# Requirements 
+
+the tkinter module is part of the python default libraries.

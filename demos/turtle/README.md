@@ -10,3 +10,7 @@ Do you remember using logo? This library that comes with python allows easy shap
 # Documentation
 
 All the gory details: http://docs.python.org/2/library/turtle.html
+
+# Requirements 
+
+the turtle library is part of the default python install.

@@ -1,3 +1,8 @@
+# DEFUNCT!
+
+Xively no longer allows registration of new users so this code is not useful any
+longer. It's left as a reference.
+
 # Xively (was Cosm)
 
 Xively is one of a few online services that can take your data and store it for you. It also makes nice graphs. 
@@ -9,12 +14,6 @@ If you want to set up your own, then you'd need to make an account and setup a n
 
 # Requirements
 
-the mechanize library.
+the mechanize module.
 
-## Windows
-
-use win pip
-
-## Mac/Linux
-
-sudo pip install mechanize
+For installation instructions see the [Library Readme](../README.md)

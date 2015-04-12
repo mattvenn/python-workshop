@@ -28,7 +28,8 @@ It's a bit fiddly, but this worked for me:
 * go to details tab, and click the 'create my access token' button
 * copy the consumer key and secret, and the access token and secret into your program
 
-# Requirements
+# Requirements 
 
-* Linux/Mac: - sudo pip install twython
-* Windows: use pip win to install twython
+the twython module.
+
+For installation instructions see the [Library Readme](../README.md)

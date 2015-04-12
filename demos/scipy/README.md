@@ -15,12 +15,6 @@ Great documentation and a cookbook are available from:
 
 # Requirements
 
-## Windows
+scipy and matplotlib modules.
 
-Install a precompiled binary from http://www.lfd.uci.edu/~gohlke/pythonlibs/#scipy
-For graphing matplotlib is required as well, which will also then need pyparsing and dateutil - all available from http://www.lfd.uci.edu/~gohlke/pythonlibs/
-
-## Mac/Linux
-
-sudo pip install scipy
-sudo pip install matplotlib
+For installation instructions see the [Library Readme](../README.md)
