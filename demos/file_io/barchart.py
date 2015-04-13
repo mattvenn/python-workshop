@@ -9,15 +9,17 @@ width = 500
 height = 500
 
 # create an image
-im = Image.new("RGB", (width,height), "white")
+im = Image.new("RGB", (width, height), "white")
 # get the draw object
 draw = ImageDraw.Draw(im)
 
 # define a colour
 BLUE = (0, 0, 255)
 
+# open a file for read (by default `open` opens file for read)
 with open("data.txt") as fh:
-    data = fh.readlines() 
+    # suck up all the lines into data (a list)
+    data = fh.readlines()
 
 # work out bar width
 num_points = len(data)
@@ -32,9 +34,9 @@ for point in data:
     # data goes from 0 to 1, so scale to height
     bar_h *= height
 
-    coords=[bar_num*bar_w, 0, bar_num*bar_w + bar_w, bar_h]
+    coords = [bar_num * bar_w, 0, bar_num * bar_w + bar_w, bar_h]
     draw.rectangle(coords, fill=BLUE)
     bar_num += 1
 
-#save the image
+# save the image
 im.save("random.png", "PNG")
