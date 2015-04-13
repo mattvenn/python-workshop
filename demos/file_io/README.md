@@ -9,6 +9,10 @@ A quick demo of using files to store and retreive data.
 A key part is knowing that we have to convert a floating point number to a
 string and add a new line to it.
 
+I'm using the `with` keyword to ensure that the file is closed nicely regardless
+of any exceptions raised. Information on the `with` keyword can be [found on the
+effbot website](http://effbot.org/zone/python-with-statement.htm).
+
 ## barchart.py
 
 [barchart.py](barchart.py) loads the data and uses it to create a simple bar

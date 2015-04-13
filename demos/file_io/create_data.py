@@ -4,6 +4,7 @@ import random
 lines = int(input("how many lines of data? "))
 
 # open a file for writing (that's what the 'w' is for)
+# see README.md for more info on the `with` keyword
 with open("data.txt", 'w') as fh:
     # generate the data
     for i in range(100):
