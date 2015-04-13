@@ -19,7 +19,7 @@ draw rectangles of specific lengths.
 
 # Requirements 
 
-the pillow module.
+the pillow module (a better supported version of PIL).
 
 For installation instructions see the [Library Readme](../README.md)
 
