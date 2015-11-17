@@ -18,7 +18,7 @@ Start with [reading one line from a file](../basics/README.md), then extend it t
 
 The text file format could be defined like this:
 
-    x,y,sizes,size
+    x,y,sides,size
 
 So an example line from the file might be:
 
