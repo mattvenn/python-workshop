@@ -42,8 +42,8 @@ accepts the data and does the drawing:
 
 Things you can try if you feel confident:
 
-* add a colour and line thickness to the file
-* add a flag to the file that will fill the shape with a colour
+* add a colour and line thickness to the file format
+* add another option to the file format that will fill the shape with a colour
 
 # More fun stuff
 
